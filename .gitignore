@@ -1,0 +1,28 @@
+# build
+dist/
+.astro/
+.vercel/
+
+# deps
+node_modules/
+
+# testes
+coverage/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# logs
+npm-debug.log*
+
+# ambiente
+.env
+.env.*
+!.env.example
+
+# sistema
+.DS_Store
+Thumbs.db
+.idea/
+node_modules

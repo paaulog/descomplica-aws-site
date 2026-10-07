@@ -1,0 +1,3 @@
+bucket:
+  term: bucket
+  definition: Um contêiner com nome único no mundo inteiro onde você guarda seus arquivos no S3.

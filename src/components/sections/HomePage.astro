@@ -1,0 +1,34 @@
+---
+import { services } from '../../data/services';
+import { localizedPath } from '../../lib/i18n/routes';
+import { useTranslations, type Locale } from '../../lib/i18n/ui';
+import BaseLayout from '../layout/BaseLayout.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const sorted = [...services].sort((a, b) => a.order - b.order);
+---
+
+<BaseLayout locale={locale}>
+  <h1>{t('site.title')}</h1>
+  <p>{t('site.description')}</p>
+  <h2>{t('home.servicesHeading')}</h2>
+  <ul>
+    {sorted.map((service) => (
+      <li data-service={service.id} data-status={service.status}>
+        {service.status === 'active' ? (
+          <a href={localizedPath(locale, `/${service.id}/`)}>{service.title[locale]}</a>
+        ) : (
+          <span>
+            {service.title[locale]} ({t('service.status.soon')})
+          </span>
+        )}
+        <p>{service.tagline[locale]}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

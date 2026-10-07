@@ -1,0 +1,28 @@
+---
+import '../../styles/global.css';
+import { htmlLang, useTranslations, type Locale } from '../../lib/i18n/ui';
+
+interface Props {
+  locale: Locale;
+  title?: string;
+}
+
+const { locale, title } = Astro.props;
+const t = useTranslations(locale);
+const pageTitle = title ? `${title} · ${t('site.title')}` : t('site.title');
+---
+
+<!doctype html>
+<html lang={htmlLang[locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={t('site.description')} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

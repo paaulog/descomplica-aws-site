@@ -1,0 +1,31 @@
+---
+import { render } from 'astro:content';
+import type { Service } from '../../data/services';
+import { getServiceSections } from '../../lib/content';
+import type { Locale } from '../../lib/i18n/ui';
+import BaseLayout from '../layout/BaseLayout.astro';
+
+interface Props {
+  service: Service;
+  locale: Locale;
+}
+
+const { service, locale } = Astro.props;
+const sections = await Promise.all(
+  (await getServiceSections(service.id, locale)).map(async (section) => ({
+    section,
+    Content: (await render(section)).Content,
+  })),
+);
+---
+
+<BaseLayout locale={locale} title={service.title[locale]}>
+  <article data-service={service.id}>
+    {sections.map(({ section, Content }) => (
+      <section id={section.data.anchor} aria-labelledby={`${section.data.anchor}-title`}>
+        <h2 id={`${section.data.anchor}-title`}>{section.data.title}</h2>
+        <Content />
+      </section>
+    ))}
+  </article>
+</BaseLayout>

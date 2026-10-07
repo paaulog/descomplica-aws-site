@@ -1,0 +1,3 @@
+bucket:
+  term: bucket
+  definition: A container with a globally unique name where you store your files in S3.
