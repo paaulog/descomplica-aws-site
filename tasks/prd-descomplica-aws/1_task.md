@@ -27,16 +27,16 @@ A pasta `.claude/skills` não existe no projeto. Skills da sessão que se aplica
 
 ## Subtarefas
 
-- [ ] 1.1 Iniciar o repositório Git, o `.gitignore` e o projeto Astro com TS estrito. Adicionar `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, `astro-expressive-code` e Tailwind v4 via `@tailwindcss/vite`.
-- [ ] 1.2 Configurar ESLint e Prettier (com os plugins de Astro e Tailwind) e os scripts do `package.json`: `dev`, `build`, `preview`, `check`, `lint`, `test`, `test:e2e`.
-- [ ] 1.3 Configurar o Vitest (projetos `unit` e `integration`, ambiente happy-dom para componentes) e o Playwright (projetos desktop Chromium e mobile com 360 px e toque, rodando contra `astro preview`).
-- [ ] 1.4 Criar o workflow `.github/workflows/ci.yml` com lint, check, testes, build e E2E.
-- [ ] 1.5 Implementar `src/lib/i18n/ui.ts`, `routes.ts` (`localizedPath` e alternates) e `format.ts` (moeda e bytes via `Intl`).
-- [ ] 1.6 Implementar `src/data/services.ts` e `src/content.config.ts` com as coleções `sections` e `glossary`.
-- [ ] 1.7 Implementar `src/lib/content/` com `getServiceSections` e `assertLocaleParity`. A paridade roda no build.
-- [ ] 1.8 Criar as rotas finas: `index.astro`, `en/index.astro`, `[service].astro` e `en/[service].astro` (`getStaticPaths` só para os ativos). Criar conteúdo semente mínimo do S3 (uma seção por idioma) para validar o pipeline.
-- [ ] 1.9 Ligar o repositório à Vercel e confirmar o deploy de preview.
-- [ ] 1.10 Escrever os testes unitários e de integração desta tarefa e o E2E de fumaça.
+- [x] 1.1 Iniciar o repositório Git, o `.gitignore` e o projeto Astro com TS estrito. Adicionar `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, `astro-expressive-code` e Tailwind v4 via `@tailwindcss/vite`.
+- [x] 1.2 Configurar ESLint e Prettier (com os plugins de Astro e Tailwind) e os scripts do `package.json`: `dev`, `build`, `preview`, `check`, `lint`, `test`, `test:e2e`.
+- [x] 1.3 Configurar o Vitest (projetos `unit` e `integration`, ambiente happy-dom para componentes) e o Playwright (projetos desktop Chromium e mobile com 360 px e toque, rodando contra `astro preview`).
+- [x] 1.4 Criar o workflow `.github/workflows/ci.yml` com lint, check, testes, build e E2E.
+- [x] 1.5 Implementar `src/lib/i18n/ui.ts`, `routes.ts` (`localizedPath` e alternates) e `format.ts` (moeda e bytes via `Intl`).
+- [x] 1.6 Implementar `src/data/services.ts` e `src/content.config.ts` com as coleções `sections` e `glossary`.
+- [x] 1.7 Implementar `src/lib/content/` com `getServiceSections` e `assertLocaleParity`. A paridade roda no build.
+- [x] 1.8 Criar as rotas finas: `index.astro`, `en/index.astro`, `[service].astro` e `en/[service].astro` (`getStaticPaths` só para os ativos). Criar conteúdo semente mínimo do S3 (uma seção por idioma) para validar o pipeline.
+- [x] 1.9 Ligar o repositório à Vercel e confirmar o deploy de preview.
+- [x] 1.10 Escrever os testes unitários e de integração desta tarefa e o E2E de fumaça.
 
 ## Detalhes de implementação
 
@@ -57,16 +57,16 @@ A pasta `.claude/skills` não existe no projeto. Skills da sessão que se aplica
 
 ## Testes da tarefa
 
-- [ ] Testes unitários
+- [x] Testes unitários
   - `ui.ts`: as chaves dos dois idiomas são idênticas.
   - `localizedPath`: pt-BR sem prefixo, en com `/en`, alternates corretos, barras finais.
   - `format.ts`: BRL em pt-BR, USD em en e bytes formatados em KB, MB e GB.
   - `services.ts`: ids únicos, `order` único e só os status permitidos.
-- [ ] Testes de integração
+- [x] Testes de integração
   - A paridade passa com o conteúdo semente e falha com fixtures quebradas (seção faltando, `key` divergente, `order` duplicado, `anchor` repetida).
   - O schema Zod rejeita `navLabel` com mais de 28 caracteres, `block` inválido e `definition` com mais de 160 caracteres.
   - O build gera só as rotas dos serviços ativos.
-- [ ] Testes E2E
+- [x] Testes E2E
   - Fumaça: `/` e `/en/` respondem 200 e o `<html lang>` está correto.
 
 ## Arquivos relevantes

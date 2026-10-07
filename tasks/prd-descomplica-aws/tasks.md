@@ -4,7 +4,7 @@ Fontes: [prd.md](prd.md) e [techspec.md](techspec.md).
 
 ## Tarefas
 
-- [ ] 1.0 Base do projeto, i18n e pipeline de conteúdo
+- [x] 1.0 Base do projeto, i18n e pipeline de conteúdo
 - [ ] 2.0 Design system, layout e navegação
 - [ ] 3.0 Lógica pura do S3, preços e ilhas interativas
 - [ ] 4.0 Conteúdo bilíngue, distribuição e lançamento
