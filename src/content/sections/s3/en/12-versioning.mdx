@@ -1,0 +1,24 @@
+---
+service: s3
+key: versioning
+order: 12
+block: how
+anchor: versioning
+title: 'Versioning: the undo button of S3'
+navLabel: Versioning
+summary: 'With versioning on, deleting by mistake can be undone.'
+---
+
+Deleting a file by mistake happens to everyone. With versioning on, S3 keeps the old versions and you can go back.
+
+When it is on, deleting destroys nothing. S3 places a <Term id="delete-marker" /> on top, and the previous versions stay stored.
+
+Delete the file with versioning off. Then turn it on and try again.
+
+<S3Island name="versionTimeline" />
+
+There is one catch: every stored version takes up space and shows up on the bill. And once on, versioning can be suspended, but never fully turned off.
+
+<SmallWin>Done, you now know how to recover a file deleted by mistake.</SmallWin>
+
+<NextHook>Can S3 clean up the old versions on its own?</NextHook>

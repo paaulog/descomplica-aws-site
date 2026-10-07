@@ -1,0 +1,24 @@
+---
+service: s3
+key: versioning
+order: 12
+block: how
+anchor: versionamento
+title: 'Versionamento: o desfazer do S3'
+navLabel: Versionamento
+summary: 'Com o versionamento ligado, apagar por engano tem volta.'
+---
+
+Apagar um arquivo por engano acontece com todo mundo. Com o versionamento ligado, o S3 guarda as versões antigas e você volta atrás.
+
+Ligado, apagar não destrói nada. O S3 coloca um <Term id="delete-marker">marcador de exclusão</Term> por cima, e as versões anteriores continuam guardadas.
+
+Apague o arquivo com o versionamento desligado. Depois ligue e tente de novo.
+
+<S3Island name="versionTimeline" />
+
+Só tem um porém: cada versão guardada ocupa espaço e entra na conta. E, depois de ligado, o versionamento pode ser suspenso, mas nunca desligado de vez.
+
+<SmallWin>Pronto, você já sabe recuperar um arquivo apagado por engano.</SmallWin>
+
+<NextHook>Dá para o S3 limpar as versões velhas sozinho?</NextHook>

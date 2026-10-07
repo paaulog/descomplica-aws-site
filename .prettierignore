@@ -1,0 +1,14 @@
+dist/
+.astro/
+.vercel/
+node_modules/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+package-lock.json
+
+# documentos de planejamento
+tasks/
+/create_*.md
+/execute_*.md

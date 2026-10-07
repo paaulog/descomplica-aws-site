@@ -1,0 +1,13 @@
+---
+import { splitLocale } from '../../lib/i18n/routes';
+import { createTranslator } from '../../lib/i18n/ui';
+
+const t = createTranslator(splitLocale(Astro.url.pathname).locale);
+---
+
+<div class="border-l-2 border-accent pl-4" data-next-hook>
+  <p class="text-sm font-medium text-muted">{t('nextHook.label')}</p>
+  <div class="mt-1 text-lg font-medium text-pretty">
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,37 @@
+---
+service: s3
+key: best-practices
+order: 17
+block: wrap
+anchor: best-practices
+title: 'Best practices and common mistakes'
+navLabel: Best practices
+summary: 'Public access blocked, versioning on, the right Region and no secrets in code.'
+---
+
+Mistakes are part of the process, and almost everyone trips in the same places. The good news: each mistake has a simple way out.
+
+<CardGrid>
+  <Card title="A bucket made public by mistake">
+    Keep Block Public Access on for every bucket that is not a website. To share a file, use a
+    presigned URL.
+  </Card>
+  <Card title="No versioning">
+    Turn versioning on for buckets with important data. A lifecycle rule deletes old versions so the
+    bill does not grow.
+  </Card>
+  <Card title="The wrong Region">
+    Create the bucket close to whoever uses the data. The Region cannot change later: to switch, you
+    create another bucket and copy everything.
+  </Card>
+  <Card title="Credentials in the code">
+    Never paste access keys into your code or into GitHub. Let the SDK find the credentials in the
+    environment.
+  </Card>
+</CardGrid>
+
+No need to memorize this. The console itself asks you to confirm before you turn off Block Public Access.
+
+<SmallWin>Done, you now know how to avoid the most common mistakes.</SmallWin>
+
+<NextHook>All that is left is to put it all on one screen.</NextHook>

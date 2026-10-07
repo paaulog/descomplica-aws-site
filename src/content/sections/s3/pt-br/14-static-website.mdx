@@ -1,0 +1,44 @@
+---
+service: s3
+key: static-website
+order: 14
+block: how
+anchor: site-estatico
+title: 'Um site no ar só com o S3'
+navLabel: Site estático
+summary: 'Envie os arquivos, ligue a hospedagem e libere a leitura pública.'
+---
+
+Um site estático é feito só de arquivos: HTML, CSS, JavaScript e imagens, sem servidor rodando código. E guardar arquivos é exatamente o que o S3 faz.
+
+<Steps>
+
+1. **Envie os arquivos do site** para um bucket novo, com o `index.html` na raiz.
+2. **Ligue a hospedagem.** Na aba **Properties**, ative **Static website hosting** e informe o <Term id="index-document">documento de índice</Term>, normalmente `index.html`.
+3. **Libere a leitura.** Na aba **Permissions**, desligue o Bloqueio de Acesso Público e cole a política de bucket abaixo, trocando o nome do bucket.
+4. **Abra o endereço.** O S3 mostra o link do site, no formato `http://meu-site.s3-website-us-east-1.amazonaws.com`.
+
+</Steps>
+
+```json title="politica-do-bucket.json"
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "LeituraPublica",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::meu-site/*"
+    }
+  ]
+}
+```
+
+Esse é o único caso em que um bucket público faz sentido, porque tudo nele foi feito para qualquer pessoa ver. Nunca guarde nada privado no bucket do site.
+
+Repare no `http://`: o endereço de site do S3 não tem HTTPS. Para ter HTTPS e domínio próprio, a AWS recomenda colocar o <Term id="cloudfront" /> ou o AWS Amplify Hosting na frente do bucket.
+
+<SmallWin>Pronto, você já sabe colocar um site no ar com o S3.</SmallWin>
+
+<NextHook>E dá para fazer tudo isso pelo código, sem clicar?</NextHook>

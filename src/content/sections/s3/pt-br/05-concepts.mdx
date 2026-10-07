@@ -1,0 +1,26 @@
+---
+service: s3
+key: concepts
+order: 5
+block: what
+anchor: conceitos-base
+title: 'Bucket, objeto, chave e região'
+navLabel: Conceitos-base
+summary: 'Bucket guarda objetos, cada objeto tem uma chave e o bucket mora numa região.'
+---
+
+Tudo no S3 gira em torno de quatro peças. O <Term id="bucket" /> guarda os arquivos, cada arquivo vira um <Term id="object">objeto</Term> e cada objeto tem uma <Term id="key">chave</Term>, o nome completo dele.
+
+A quarta peça é a <Term id="region">região</Term>: o lugar do mundo onde o bucket mora, como `us-east-1` (Virgínia do Norte) ou `sa-east-1` (São Paulo). Você escolhe a região ao criar o bucket e não pode trocar depois.
+
+Envie um arquivo e veja o que o S3 guarda junto com ele. Essas informações extras são os <Term id="metadata">metadados</Term>.
+
+<S3Island name="uploadToBucket" />
+
+Talvez você esteja pensando: "e as pastas?". No S3 elas não existem de verdade. Digite uma chave e veja como o console transforma as barras em <Term id="prefix">prefixos</Term> que parecem pastas.
+
+<S3Island name="keyExplorer" />
+
+<SmallWin>Pronto, você já sabe o que é bucket, objeto, chave e região.</SmallWin>
+
+<NextHook>Beleza, mas onde isso aparece na vida real?</NextHook>

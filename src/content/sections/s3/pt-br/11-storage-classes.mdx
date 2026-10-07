@@ -1,0 +1,29 @@
+---
+service: s3
+key: storage-classes
+order: 11
+block: how
+anchor: classes-de-armazenamento
+title: 'Classes de armazenamento'
+navLabel: Classes de armazenamento
+summary: 'Quanto menos você acessa, mais barato fica guardar e mais caro fica ler.'
+---
+
+Nem todo arquivo é aberto todo dia. Por isso o S3 tem <Term id="storage-class">classes de armazenamento</Term>, cada uma com um preço para guardar e outro para ler.
+
+As que você mais vai encontrar:
+
+- **S3 Standard:** o padrão, para o que é usado o tempo todo.
+- **S3 Intelligent-Tiering:** muda cada objeto de nível sozinho, conforme o uso. Ótimo quando você não sabe o padrão de acesso.
+- **S3 Standard-IA:** para o que é lido pouco, mas precisa estar pronto na hora. IA vem de _Infrequent Access_, acesso pouco frequente.
+- **S3 Glacier:** a família de arquivamento, com três classes (Instant Retrieval, Flexible Retrieval e Deep Archive). É a mais barata para guardar e a mais cara para ler.
+
+Mexa no controle e veja a recomendação e o custo mudarem.
+
+<S3Island name="storageClassSlider" />
+
+A regra de bolso: quanto menos você acessa, mais barato fica guardar e mais caro fica ler.
+
+<SmallWin>Pronto, você já sabe escolher uma classe de armazenamento.</SmallWin>
+
+<NextHook>E se alguém apagar um arquivo importante sem querer?</NextHook>

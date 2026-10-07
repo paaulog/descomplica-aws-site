@@ -1,0 +1,219 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/*
+ * Tokens resolve through light-dark(), so the page follows the system theme even before
+ * (or without) the inline theme script; data-theme only pins color-scheme.
+ */
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#fafafa, #0b0c0e);
+  --surface: light-dark(#ffffff, #15171a);
+  --fg: light-dark(#18181b, #f4f4f5);
+  --muted: light-dark(#52525b, #a1a1aa);
+  --border: light-dark(#e4e4e7, #2a2d33);
+  --accent: light-dark(#3f3f46, #d4d4d8);
+  --focus-ring: light-dark(#2563eb, #93c5fd);
+  --header-height: 3.5rem;
+  --section-bar-height: 2.75rem;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+/* Recomputed wherever the accent changes; a :root-only value would keep the neutral accent. */
+:root,
+[data-service] {
+  --accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+}
+
+/* One accent per service; every id in src/data/services.ts needs a rule here. */
+[data-service='s3'] {
+  --accent: light-dark(#047857, #34d399);
+}
+
+[data-service='ec2'] {
+  --accent: light-dark(#c2410c, #fb923c);
+}
+
+[data-service='lambda'] {
+  --accent: light-dark(#b45309, #fbbf24);
+}
+
+[data-service='vpc'] {
+  --accent: light-dark(#6d28d9, #a78bfa);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--accent-soft);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Long-form MDX content; kept small instead of pulling in @tailwindcss/typography. */
+@layer components {
+  .prose-content {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  .prose-content > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .prose-content a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-content strong {
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .prose-content :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.1em 0.35em;
+    border-radius: 0.3rem;
+    background-color: var(--accent-soft);
+  }
+
+  .prose-content ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .prose-content ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+  }
+
+  /* Kept a real table for screen readers; short cells wrap, so 360 px needs no scroll box. */
+  .prose-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .prose-content :is(th, td) {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .prose-content th {
+    font-weight: 600;
+  }
+
+  .prose-content .steps ol {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: step;
+  }
+
+  .prose-content .steps li {
+    position: relative;
+    counter-increment: step;
+    padding: 0 0 1.25rem 3rem;
+  }
+
+  .prose-content .steps li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 2.25rem;
+    bottom: 0.25rem;
+    left: 0.95rem;
+    border-left: 2px solid var(--border);
+  }
+
+  .prose-content .steps li::before {
+    content: counter(step);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Islands draw their own lists; utilities still win where an island wants markers. */
+  .prose-content [data-island] :is(ul, ol) {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+
+/* Anchored sections must clear the sticky header and, below lg, the section bar. */
+.section-anchor {
+  scroll-margin-top: calc(var(--header-height) + var(--section-bar-height) + 1rem);
+}
+
+@media (min-width: 64rem) {
+  .section-anchor {
+    scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+/* reveal-ready is set by the reveal script itself, so content stays readable if it never runs. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .reveal-ready .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}

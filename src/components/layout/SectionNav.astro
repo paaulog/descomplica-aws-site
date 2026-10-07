@@ -1,0 +1,228 @@
+---
+import type { SectionData } from '../../lib/content/schemas';
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+
+interface Props {
+  sections: readonly Pick<SectionData, 'anchor' | 'navLabel'>[];
+  locale: Locale;
+}
+
+const { sections, locale } = Astro.props;
+const t = createTranslator(locale);
+const [first] = sections;
+---
+
+<div
+  class="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left scale-x-0 bg-accent"
+  aria-hidden="true"
+  data-reading-progress
+></div>
+
+<nav
+  aria-label={t('nav.sections')}
+  class="pointer-events-none fixed top-1/2 right-4 z-30 hidden -translate-y-1/2 lg:block xl:right-8"
+  data-section-nav
+>
+  <ol class="flex flex-col items-end">
+    {sections.map((section) => (
+      <li>
+        <a href={`#${section.anchor}`} class="dash group" data-nav-link={section.anchor}>
+          <span class="dash-label">{section.navLabel}</span>
+          <span class="dash-bar" aria-hidden="true" />
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<details
+  class="section-bar sticky top-(--header-height) z-30 border-b border-border bg-bg/90 backdrop-blur-md open:bg-bg lg:hidden"
+  data-section-bar
+>
+  <summary class="flex h-(--section-bar-height) cursor-pointer list-none items-center gap-3 px-4 text-sm">
+    <span class="flex gap-1" aria-hidden="true">
+      {sections.map((section) => (
+        <span class="bar-dash h-1 w-3 rounded-full bg-border" data-bar-dash={section.anchor} />
+      ))}
+    </span>
+    <span class="sr-only">{t('nav.current')}:</span>
+    <span class="min-w-0 flex-1 truncate font-medium" data-bar-current>
+      {first?.navLabel}
+    </span>
+    <svg
+      class="bar-chevron size-4 text-muted transition-transform"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </summary>
+  <nav
+    aria-label={t('nav.sections')}
+    class="absolute inset-x-0 top-full max-h-[60dvh] overflow-y-auto border-y border-border bg-bg px-2 py-2"
+  >
+    <ol>
+      {sections.map((section) => (
+        <li>
+          <a
+            href={`#${section.anchor}`}
+            class="block rounded-md px-3 py-2.5 text-sm text-muted aria-[current=location]:font-medium aria-[current=location]:text-accent"
+            data-nav-link={section.anchor}
+          >
+            {section.navLabel}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+</details>
+
+<style>
+  /* Only the dashes take clicks; hidden labels must not cover the article next to the nav. */
+  .dash {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 1.75rem;
+    padding-left: 0.5rem;
+    pointer-events: auto;
+  }
+
+  .dash-bar {
+    display: block;
+    width: 2rem;
+    height: 3px;
+    border-radius: 9999px;
+    background-color: var(--muted);
+    opacity: 0.45;
+    transform: scaleX(0.5);
+    transform-origin: right;
+    transition:
+      transform 0.25s ease-out,
+      opacity 0.25s ease-out;
+  }
+
+  .dash:hover .dash-bar,
+  .dash:focus-visible .dash-bar {
+    opacity: 0.9;
+  }
+
+  .dash[aria-current='location'] .dash-bar {
+    background-color: var(--accent);
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .dash-label {
+    position: absolute;
+    right: calc(100% + 0.5rem);
+    pointer-events: none;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(0.5rem);
+    transition:
+      opacity 0.2s ease-out,
+      transform 0.2s ease-out;
+  }
+
+  .dash:hover .dash-label,
+  .dash:focus-visible .dash-label {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bar-dash[data-active] {
+    background-color: var(--accent);
+  }
+
+  .section-bar[open] .bar-chevron {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dash-bar,
+    .dash-label,
+    .bar-chevron {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { computeReadingProgress } from '../../lib/nav/reading-progress';
+  import { createSectionObserver } from '../../lib/nav/section-observer';
+
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+  const ids = [...new Set(links.map((link) => link.dataset.navLink ?? ''))];
+  const bar = document.querySelector<HTMLDetailsElement>('[data-section-bar]');
+  const currentLabel = document.querySelector<HTMLElement>('[data-bar-current]');
+  const progress = document.querySelector<HTMLElement>('[data-reading-progress]');
+  let frame = 0;
+  let observedId: string | undefined;
+  let atPageEnd = false;
+
+  function markActive(activeId: string): void {
+    document.documentElement.dataset.activeSection = activeId;
+    for (const link of links) {
+      if (link.dataset.navLink === activeId) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
+    for (const dash of document.querySelectorAll<HTMLElement>('[data-bar-dash]')) {
+      dash.toggleAttribute('data-active', dash.dataset.barDash === activeId);
+    }
+    const label = links.find((link) => link.dataset.navLink === activeId)?.textContent;
+    if (currentLabel && label) currentLabel.textContent = label.trim();
+  }
+
+  function updateProgress(): void {
+    frame = 0;
+    const root = document.documentElement;
+    const value = computeReadingProgress({
+      scrollTop: root.scrollTop,
+      scrollHeight: root.scrollHeight,
+      viewportHeight: root.clientHeight,
+    });
+    if (progress) progress.style.transform = `scaleX(${value})`;
+    atPageEnd = value === 1;
+    refreshActive();
+  }
+
+  // The last section is often too short to reach the active line, so the page end selects it.
+  function refreshActive(): void {
+    const activeId = atPageEnd ? ids.at(-1) : observedId;
+    if (activeId && activeId !== document.documentElement.dataset.activeSection) {
+      markActive(activeId);
+    }
+  }
+
+  createSectionObserver(ids, (activeId) => {
+    observedId = activeId;
+    refreshActive();
+  });
+  updateProgress();
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (frame === 0) frame = requestAnimationFrame(updateProgress);
+    },
+    { passive: true },
+  );
+  for (const link of links) link.addEventListener('click', () => bar?.removeAttribute('open'));
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !bar?.open) return;
+    const hadFocus = bar.contains(document.activeElement);
+    bar.removeAttribute('open');
+    if (hadFocus) bar.querySelector('summary')?.focus();
+  });
+</script>

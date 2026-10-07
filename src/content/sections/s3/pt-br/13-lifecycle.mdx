@@ -1,0 +1,26 @@
+---
+service: s3
+key: lifecycle
+order: 13
+block: how
+anchor: ciclo-de-vida
+title: 'Ciclo de vida automático'
+navLabel: Ciclo de vida
+summary: 'Regras movem arquivos para classes mais baratas e apagam o que venceu.'
+---
+
+Dá, e não só as versões. Uma <Term id="lifecycle-rule">regra de ciclo de vida</Term> muda a classe dos objetos ou apaga os objetos sozinha, conforme a idade de cada um.
+
+Pensa nos logs de acesso de um site. São úteis no primeiro mês, consultados de vez em quando depois e esquecidos no fim do ano.
+
+Avance o tempo e veja o arquivo descer de classe.
+
+<S3Island name="lifecycleAnimation" />
+
+Dois cuidados. Por padrão, objetos menores que 128 KB não mudam de classe, porque a taxa da mudança custaria mais que a economia.
+
+E algumas classes cobram um tempo mínimo de armazenamento. Apagar ou mover antes disso não devolve o dinheiro.
+
+<SmallWin>Pronto, você já sabe deixar o S3 arrumar a casa sozinho.</SmallWin>
+
+<NextHook>E se, em vez de logs, os arquivos forem um site inteiro?</NextHook>

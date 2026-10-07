@@ -1,0 +1,53 @@
+---
+import type { AnchorMap } from '../../lib/i18n/anchors';
+import { localizedPath } from '../../lib/i18n/routes';
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  locale: Locale;
+  path: string;
+  anchorMap?: AnchorMap | undefined;
+}
+
+const { locale, path, anchorMap } = Astro.props;
+const t = createTranslator(locale);
+---
+
+<header class="sticky top-0 z-40 h-(--header-height) border-b border-border bg-bg/85 backdrop-blur-md">
+  <div class="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+    <a
+      href={localizedPath(locale, '/')}
+      class="flex items-center gap-2.5 font-semibold tracking-tight"
+      aria-label={t('header.home')}
+    >
+      <svg class="size-5 text-accent" viewBox="0 0 20 20" aria-hidden="true">
+        <rect x="2" y="4" width="16" height="2.5" rx="1.25" fill="currentColor"></rect>
+        <rect
+          x="2"
+          y="9"
+          width="10"
+          height="2.5"
+          rx="1.25"
+          fill="currentColor"
+          opacity="0.7"
+        ></rect>
+        <rect
+          x="2"
+          y="14"
+          width="6"
+          height="2.5"
+          rx="1.25"
+          fill="currentColor"
+          opacity="0.45"
+        ></rect>
+      </svg>
+      <span>{t('site.title')}</span>
+    </a>
+    <div class="flex items-center gap-1">
+      <LanguageSwitcher locale={locale} path={path} anchorMap={anchorMap} />
+      <ThemeToggle locale={locale} />
+    </div>
+  </div>
+</header>

@@ -1,0 +1,26 @@
+---
+service: s3
+key: costs
+order: 16
+block: wrap
+anchor: costs-without-surprises
+title: 'Costs without surprises'
+navLabel: Costs without surprises
+summary: 'You pay for space, for requests and for data going out.'
+---
+
+The S3 bill has three parts: the space you use, the <Term id="request">requests</Term> and the <Term id="data-transfer-out" /> to the internet. When you are starting out, it tends to be quite small.
+
+Pick an example or type in your own numbers.
+
+<S3Island name="costCalculator" />
+
+You may have read that S3 gives you 5 GB free for 12 months. That changed: since July 15, 2025, new accounts get credits to spend on many services, S3 included. If you choose the <Term id="free-plan" />, you pay nothing for up to 6 months, or until the credits run out, and the calculator shows the current amounts.
+
+For peace of mind, create an alert in AWS Budgets. It emails you when the bill goes past the amount you choose.
+
+<PricingNote />
+
+<SmallWin>Done, you now know where every cent of the bill comes from.</SmallWin>
+
+<NextHook>Now, the most common slip-ups (and how to avoid them).</NextHook>

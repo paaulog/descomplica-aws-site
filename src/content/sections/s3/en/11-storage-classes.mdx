@@ -1,0 +1,29 @@
+---
+service: s3
+key: storage-classes
+order: 11
+block: how
+anchor: storage-classes
+title: 'Storage classes'
+navLabel: Storage classes
+summary: 'The less you access it, the cheaper it is to store and the pricier it is to read.'
+---
+
+Not every file is opened every day. That is why S3 has <Term id="storage-class">storage classes</Term>, each with one price to store and another to read.
+
+The ones you will see the most:
+
+- **S3 Standard:** the default, for things used all the time.
+- **S3 Intelligent-Tiering:** moves each object between tiers on its own, based on usage. Great when you do not know the access pattern.
+- **S3 Standard-IA:** for things read rarely that still need to be ready right away. IA stands for _Infrequent Access_.
+- **S3 Glacier:** the archive family, with three classes (Instant Retrieval, Flexible Retrieval and Deep Archive). The cheapest to store and the most expensive to read.
+
+Move the control and watch the recommendation and the cost change.
+
+<S3Island name="storageClassSlider" />
+
+The rule of thumb: the less you access it, the cheaper it is to store and the pricier it is to read.
+
+<SmallWin>Done, you now know how to pick a storage class.</SmallWin>
+
+<NextHook>What if someone deletes an important file by mistake?</NextHook>

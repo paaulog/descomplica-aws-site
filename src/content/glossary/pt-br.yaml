@@ -1,0 +1,69 @@
+bucket:
+  term: bucket
+  definition: Um contêiner com nome único entre todas as contas da AWS, onde você guarda seus arquivos no S3.
+object:
+  term: objeto
+  definition: Um arquivo guardado no S3, junto com os metadados dele e a chave que o identifica.
+key:
+  term: chave
+  definition: O nome completo de um objeto dentro do bucket, como fotos/2026/praia.jpg. É com ela que você encontra o arquivo.
+region:
+  term: região
+  definition: O lugar do mundo onde a AWS guarda o seu bucket, como us-east-1 (Virgínia do Norte) ou sa-east-1 (São Paulo).
+prefix:
+  term: prefixo
+  definition: O começo da chave até a última barra, como fotos/2026/. O console mostra os prefixos como se fossem pastas.
+metadata:
+  term: metadados
+  definition: Informações guardadas junto com o arquivo, como o tamanho, o tipo de conteúdo e a data da última modificação.
+durability:
+  term: durabilidade
+  definition: A chance de um arquivo guardado não se perder. O S3 Standard é projetado para 99,999999999% de durabilidade ao ano.
+availability-zone:
+  term: zona de disponibilidade
+  definition: Um ou mais data centers separados dentro de uma região, com energia e rede próprias. Se um falha, os outros seguem.
+storage-class:
+  term: classe de armazenamento
+  definition: O plano de cada objeto no S3. Define quanto custa guardar, quanto custa ler e em quanto tempo o arquivo volta.
+credentials:
+  term: credenciais
+  definition: O que prova para a AWS quem você é, como o login do console ou as chaves de acesso que o código usa.
+iam:
+  term: IAM
+  definition: Identity and Access Management, o serviço da AWS que define quem pode fazer o quê em cada recurso.
+block-public-access:
+  term: Bloqueio de Acesso Público
+  definition: Uma trava do S3, ligada por padrão nos buckets novos, que impede deixar buckets e objetos públicos, mesmo por engano.
+bucket-policy:
+  term: política de bucket
+  definition: Um documento em JSON, preso ao bucket, que diz quem pode fazer o quê com os objetos dele.
+presigned-url:
+  term: URL pré-assinada
+  definition: Um link para um objeto privado que leva uma assinatura e só funciona até a data de expiração.
+delete-marker:
+  term: marcador de exclusão
+  definition: O aviso que o S3 coloca no lugar de um arquivo apagado com o versionamento ligado. Removê-lo traz o arquivo de volta.
+lifecycle-rule:
+  term: regra de ciclo de vida
+  definition: Uma regra do bucket que muda a classe dos objetos ou apaga os objetos depois de um número de dias.
+index-document:
+  term: documento de índice
+  definition: A página que o site mostra quando alguém abre um endereço sem nome de arquivo, normalmente o index.html.
+cloudfront:
+  term: CloudFront
+  definition: A rede de entrega de conteúdo (CDN) da AWS. Guarda cópias do site perto dos visitantes e oferece HTTPS.
+sdk:
+  term: SDK
+  definition: Software Development Kit, uma biblioteca oficial que faz as chamadas à API da AWS por você, na sua linguagem.
+api:
+  term: API
+  definition: O jeito de um programa conversar com outro. A API do S3 tem operações como PutObject (enviar) e GetObject (ler).
+request:
+  term: requisição
+  definition: Cada pedido feito ao S3, como enviar (PUT), ler (GET) ou listar objetos. O S3 cobra por milhar de requisições.
+data-transfer-out:
+  term: transferência de saída
+  definition: Os dados que saem da AWS para a internet, como alguém baixando um arquivo. Enviar dados da internet para o S3 é grátis.
+free-plan:
+  term: Free Plan
+  definition: O plano gratuito para contas novas criadas desde julho de 2025. Dá créditos para usar a AWS por até 6 meses, sem cobrança.

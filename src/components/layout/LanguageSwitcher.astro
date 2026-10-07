@@ -1,0 +1,41 @@
+---
+import type { AnchorMap } from '../../lib/i18n/anchors';
+import { localizedPath } from '../../lib/i18n/routes';
+import { getOtherLocale, htmlLang, ui, type Locale } from '../../lib/i18n/ui';
+
+interface Props {
+  locale: Locale;
+  path: string;
+  anchorMap?: AnchorMap | undefined;
+}
+
+const { locale, path, anchorMap = {} } = Astro.props;
+const target = getOtherLocale(locale);
+---
+
+<a
+  href={localizedPath(target, path)}
+  hreflang={htmlLang[target]}
+  lang={htmlLang[target]}
+  class="inline-flex h-10 items-center rounded-md px-3 text-sm font-medium text-muted transition-colors hover:bg-accent-soft hover:text-fg"
+  data-language-switch
+  data-anchor-map={JSON.stringify(anchorMap)}
+>
+  {ui[target]['language.name']}
+</a>
+
+<script>
+  import { parseAnchorMap, translateHref } from '../../lib/i18n/anchors';
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-language-switch]')) {
+    const anchorMap = parseAnchorMap(link.dataset.anchorMap);
+    const href = link.getAttribute('href') ?? '';
+    const updateHref = () => {
+      const current = document.documentElement.dataset.activeSection ?? location.hash.slice(1);
+      link.setAttribute('href', translateHref(href, current, anchorMap));
+    };
+    // pointerdown also covers middle-click and "open in new tab", which skip the click event.
+    link.addEventListener('pointerdown', updateHref);
+    link.addEventListener('click', updateHref);
+  }
+</script>

@@ -1,0 +1,84 @@
+---
+service: s3
+key: code
+order: 15
+block: how
+anchor: usando-via-codigo
+title: Usando o S3 pelo código
+navLabel: Usando via código
+summary: Com o SDK, enviar e listar arquivos leva poucas linhas.
+---
+
+Dá, sim. Tudo o que você faz no console também dá para fazer pelo código, com o <Term id="sdk" /> da AWS. Por baixo, ele chama a <Term id="api" /> do S3 por você.
+
+Primeiro, instale o SDK: `npm install @aws-sdk/client-s3` no JavaScript ou `pip install boto3` no Python. Depois escolha a linguagem e veja como enviar e listar arquivos.
+
+<CodeTabs>
+<Fragment slot="js">
+
+```js title="enviar.mjs"
+import { readFile } from 'node:fs/promises';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+
+const s3 = new S3Client({ region: 'us-east-1' });
+
+await s3.send(
+  new PutObjectCommand({
+    Bucket: 'meu-bucket-de-exemplo',
+    Key: 'fotos/2026/praia.jpg',
+    Body: await readFile('praia.jpg'),
+  }),
+);
+```
+
+</Fragment>
+<Fragment slot="python">
+
+```python title="enviar.py"
+import boto3
+
+s3 = boto3.client('s3', region_name='us-east-1')
+
+s3.upload_file('praia.jpg', 'meu-bucket-de-exemplo', 'fotos/2026/praia.jpg')
+```
+
+</Fragment>
+</CodeTabs>
+
+<CodeTabs>
+<Fragment slot="js">
+
+```js title="listar.mjs"
+import { ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
+
+const s3 = new S3Client({ region: 'us-east-1' });
+
+const { Contents = [] } = await s3.send(
+  new ListObjectsV2Command({ Bucket: 'meu-bucket-de-exemplo', Prefix: 'fotos/' }),
+);
+
+for (const object of Contents) console.log(object.Key, object.Size);
+```
+
+</Fragment>
+<Fragment slot="python">
+
+```python title="listar.py"
+import boto3
+
+s3 = boto3.client('s3', region_name='us-east-1')
+
+response = s3.list_objects_v2(Bucket='meu-bucket-de-exemplo', Prefix='fotos/')
+
+for obj in response.get('Contents', []):
+    print(obj['Key'], obj['Size'])
+```
+
+</Fragment>
+</CodeTabs>
+
+Repare que nenhuma senha aparece no código. O SDK busca as credenciais no ambiente, como as variáveis de ambiente ou o arquivo de configuração da AWS CLI.
+
+<SmallWin>Pronto, você já sabe usar o S3 pelo código.</SmallWin>
+
+<NextHook>Tudo muito bonito, mas quanto isso custa?</NextHook>

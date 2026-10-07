@@ -1,0 +1,27 @@
+---
+import { splitLocale } from '../../lib/i18n/routes';
+import { createTranslator } from '../../lib/i18n/ui';
+
+const t = createTranslator(splitLocale(Astro.url.pathname).locale);
+---
+
+<div class="flex gap-3 rounded-xl bg-accent-soft p-4">
+  <svg
+    class="mt-1 size-5 shrink-0 text-accent"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20 6 9 17l-5-5"></path>
+  </svg>
+  <div>
+    <p class="sr-only">{t('smallWin.label')}</p>
+    <div class="font-medium">
+      <slot />
+    </div>
+  </div>
+</div>

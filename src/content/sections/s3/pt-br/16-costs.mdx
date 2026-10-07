@@ -1,0 +1,26 @@
+---
+service: s3
+key: costs
+order: 16
+block: wrap
+anchor: custos-sem-susto
+title: 'Custos sem susto'
+navLabel: Custos sem susto
+summary: 'Você paga pelo espaço, pelas requisições e pelos dados que saem.'
+---
+
+A conta do S3 tem três partes: o espaço ocupado, as <Term id="request">requisições</Term> e a <Term id="data-transfer-out">transferência de saída</Term> para a internet. Para quem está começando, ela costuma ser bem pequena.
+
+Escolha um exemplo ou digite os seus números.
+
+<S3Island name="costCalculator" />
+
+Talvez você tenha lido por aí que o S3 dá 5 GB grátis por 12 meses. Isso mudou: desde 15 de julho de 2025, contas novas ganham créditos para gastar em vários serviços, incluindo o S3. Quem escolhe o <Term id="free-plan" /> não paga nada por até 6 meses, ou até os créditos acabarem, e a calculadora mostra os valores atuais.
+
+Para dormir tranquilo, crie um alerta no AWS Budgets. Ele avisa por e-mail quando a conta passa do valor que você escolher.
+
+<PricingNote />
+
+<SmallWin>Pronto, você já sabe de onde vem cada centavo da conta.</SmallWin>
+
+<NextHook>Agora, os tropeços mais comuns (e como fugir deles).</NextHook>

@@ -1,0 +1,86 @@
+---
+import { getGlossaryEntry } from '../../lib/content';
+import { splitLocale } from '../../lib/i18n/routes';
+import { generateUniqueId } from '../../lib/ui/unique-id';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+// Throws for an unknown id, which fails the build instead of shipping an empty tooltip.
+const entry = await getGlossaryEntry(id, splitLocale(Astro.url.pathname).locale);
+const popoverId = generateUniqueId(`term-${id}`);
+const label = Astro.slots.has('default') ? await Astro.slots.render('default') : entry.term;
+---
+
+<button
+  type="button"
+  class="term"
+  popovertarget={popoverId}
+  aria-describedby={popoverId}
+  data-term-trigger
+  set:html={label}
+/>
+<span id={popoverId} popover="auto" role="tooltip" class="term-popover">
+  <strong>{entry.term}:</strong> {entry.definition}
+</span>
+
+<style>
+  .term {
+    display: inline;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline dotted;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    cursor: help;
+  }
+
+  .term-popover {
+    max-width: min(20rem, calc(100vw - 1rem));
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 0.625rem;
+    background-color: var(--surface);
+    color: var(--fg);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.35);
+  }
+
+  /* Floating UI positions it; without JS the browser's centered default is kept. */
+  :global(.js) .term-popover {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .term-popover {
+      opacity: 0;
+      transition:
+        opacity 0.15s ease-out,
+        display 0.15s allow-discrete,
+        overlay 0.15s allow-discrete;
+    }
+
+    .term-popover:popover-open {
+      opacity: 1;
+    }
+
+    @starting-style {
+      .term-popover:popover-open {
+        opacity: 0;
+      }
+    }
+  }
+</style>
+
+<script>
+  import { setupTermPopovers } from '../../lib/ui/term-popover';
+
+  setupTermPopovers();
+</script>

@@ -1,0 +1,49 @@
+---
+service: s3
+key: examples
+order: 7
+block: why
+anchor: well-known-examples
+title: 'Companies that keep it all in S3'
+navLabel: Well-known examples
+summary: 'Photos, backups and data from well-known companies live in S3.'
+---
+
+It is not just for small projects. AWS itself publishes how companies use S3, and each example below links to the source.
+
+<CardGrid>
+  <Card
+    title="Photobox"
+    source="https://aws.amazon.com/s3/customers/"
+    sourceLabel="Amazon S3 customers"
+  >
+    The photo book and printing service moved **10 petabytes** of photos from its own servers to S3.
+    That is 10 million GB.
+  </Card>
+  <Card
+    title="Ryanair"
+    source="https://aws.amazon.com/s3/customers/"
+    sourceLabel="Amazon S3 customers"
+  >
+    The airline replaced tape backups with S3 Glacier and saved **65%** on backup costs.
+  </Card>
+  <Card
+    title="Zalando"
+    source="https://aws.amazon.com/s3/customers/"
+    sourceLabel="Amazon S3 customers"
+  >
+    The online fashion store keeps its analytics data in S3 and saves **37%** a year with S3
+    Intelligent-Tiering.
+  </Card>
+  <Card
+    title="Nasdaq"
+    source="https://aws.amazon.com/s3/customers/"
+    sourceLabel="Amazon S3 customers"
+  >
+    The stock exchange stores critical data in S3 and S3 Glacier.
+  </Card>
+</CardGrid>
+
+Notice how different these uses are: photos, backups and data analysis. It is the same service, with the same pieces you just learned.
+
+<NextHook>But why not put everything on a big hard drive and call it a day?</NextHook>

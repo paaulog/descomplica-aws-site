@@ -1,0 +1,28 @@
+---
+service: s3
+key: permissions
+order: 10
+block: how
+anchor: permissions-and-access
+title: 'Who can open the locker'
+navLabel: Permissions and access
+summary: 'Everything starts private; you open it to the public or create a link that expires.'
+---
+
+Remember the luggage storage? By default, only whoever holds the key can open the locker. In S3, that key is your account's credentials, and <Term id="iam" /> decides what each of them can do.
+
+There are three common ways to open the door:
+
+- **Private (the default):** only people with credentials and permission get in.
+- **Public:** you turn off <Term id="block-public-access" /> and write a <Term id="bucket-policy" /> that lets everyone read.
+- **Temporary link:** a <Term id="presigned-url" /> works only until it expires. From the console it lasts up to 12 hours; from code or the command line, up to 7 days.
+
+Switch the access type and see who can read the file.
+
+<S3Island name="accessLock" />
+
+When in doubt, go with the presigned URL. It shares one specific file, for a short time, without opening the whole bucket.
+
+<SmallWin>Done, you now know who can open your files.</SmallWin>
+
+<NextHook>What if a file is almost never opened? Do you still pay the same price?</NextHook>

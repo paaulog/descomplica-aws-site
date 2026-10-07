@@ -1,0 +1,97 @@
+---
+import type { SectionData } from '../../lib/content/schemas';
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+
+interface Props {
+  section: SectionData;
+  locale: Locale;
+  headingLevel: 1 | 2;
+}
+
+const { section, locale, headingLevel } = Astro.props;
+const t = createTranslator(locale);
+const Heading = headingLevel === 1 ? 'h1' : 'h2';
+const headingId = `${section.anchor}--heading`;
+// The opening holds the h1 (the LCP element), so it is never hidden for the reveal effect.
+const isOpening = headingLevel === 1;
+---
+
+<section
+  id={section.anchor}
+  aria-labelledby={headingId}
+  class:list={['section-anchor py-16 sm:py-24', { reveal: !isOpening }]}
+  data-section-key={section.key}
+>
+  <p class="text-sm font-medium tracking-wide text-accent uppercase">
+    {t(`section.block.${section.block}`)}
+  </p>
+  <div class="group mt-3 flex items-start gap-2">
+    <Heading
+      id={headingId}
+      class:list={[
+        'font-semibold tracking-tight text-balance',
+        isOpening ? 'text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl',
+      ]}
+    >
+      {section.title}
+    </Heading>
+    <a
+      href={`#${section.anchor}`}
+      class="mt-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted opacity-60 transition-opacity group-hover:opacity-100 hover:text-accent focus-visible:opacity-100"
+      data-copy-link
+    >
+      <span class="sr-only">
+        {t('section.copyLink')}: {section.title}
+      </span>
+      <svg
+        class="size-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M10 14a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"></path>
+        <path d="M14 10a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"></path>
+      </svg>
+    </a>
+    <span
+      class="mt-2 text-sm text-accent opacity-0 transition-opacity data-[visible]:opacity-100"
+      role="status"
+      data-copy-status
+      data-message={t('section.linkCopied')}
+    ></span>
+  </div>
+  <div class="prose-content mt-8">
+    <slot />
+  </div>
+</section>
+
+<script>
+  import { observeReveal } from '../../lib/nav/reveal';
+
+  const STATUS_VISIBLE_MS = 2000;
+
+  async function copySectionLink(link: HTMLAnchorElement): Promise<void> {
+    const status = link.parentElement?.querySelector<HTMLElement>('[data-copy-status]');
+    try {
+      await navigator.clipboard.writeText(link.href);
+    } catch {
+      return;
+    }
+    if (!status) return;
+    status.textContent = status.dataset.message ?? '';
+    status.dataset.visible = '';
+    window.setTimeout(() => {
+      delete status.dataset.visible;
+      status.textContent = '';
+    }, STATUS_VISIBLE_MS);
+  }
+
+  // The default navigation still runs, so the hash updates and the page scrolls to the section.
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-copy-link]')) {
+    link.addEventListener('click', () => void copySectionLink(link));
+  }
+  observeReveal([...document.querySelectorAll('.reveal')]);
+</script>

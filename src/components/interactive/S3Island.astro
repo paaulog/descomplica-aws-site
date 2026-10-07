@@ -1,0 +1,72 @@
+---
+import { pricing } from '../../data/pricing';
+import { splitLocale } from '../../lib/i18n/routes';
+import { getIslandMessages, islandMessages, type IslandName } from '../../lib/i18n/ui';
+import AccessLock from './s3/AccessLock';
+import CostCalculator from './s3/CostCalculator';
+import FlowDiagram from './s3/FlowDiagram';
+import KeyExplorer from './s3/KeyExplorer';
+import LifecycleAnimation from './s3/LifecycleAnimation';
+import StorageClassSlider from './s3/StorageClassSlider';
+import UploadToBucket from './s3/UploadToBucket';
+import VersionTimeline from './s3/VersionTimeline';
+
+interface Props {
+  name: IslandName;
+}
+
+// client:visible needs each component statically in the template, hence one branch per island.
+const { name } = Astro.props;
+const locale = splitLocale(Astro.url.pathname).locale;
+// A typo in the MDX fails the build instead of leaving an empty spot on the page.
+if (!Object.hasOwn(islandMessages[locale], name)) {
+  throw new Error(`<S3Island name="${name}">: ilha desconhecida`);
+}
+---
+
+{name === 'keyExplorer' && (
+  <KeyExplorer client:visible locale={locale} messages={getIslandMessages(locale, 'keyExplorer')} />
+)}
+{name === 'uploadToBucket' && (
+  <UploadToBucket
+    client:visible
+    locale={locale}
+    messages={getIslandMessages(locale, 'uploadToBucket')}
+  />
+)}
+{name === 'storageClassSlider' && (
+  <StorageClassSlider
+    client:visible
+    locale={locale}
+    messages={getIslandMessages(locale, 'storageClassSlider')}
+    pricing={pricing}
+  />
+)}
+{name === 'costCalculator' && (
+  <CostCalculator
+    client:visible
+    locale={locale}
+    messages={getIslandMessages(locale, 'costCalculator')}
+    pricing={pricing}
+  />
+)}
+{name === 'accessLock' && (
+  <AccessLock client:visible locale={locale} messages={getIslandMessages(locale, 'accessLock')} />
+)}
+{name === 'versionTimeline' && (
+  <VersionTimeline
+    client:visible
+    locale={locale}
+    messages={getIslandMessages(locale, 'versionTimeline')}
+  />
+)}
+{name === 'lifecycleAnimation' && (
+  <LifecycleAnimation
+    client:visible
+    locale={locale}
+    messages={getIslandMessages(locale, 'lifecycleAnimation')}
+  />
+)}
+{name === 'flowDiagram' && (
+  <FlowDiagram client:visible locale={locale} messages={getIslandMessages(locale, 'flowDiagram')} />
+)}

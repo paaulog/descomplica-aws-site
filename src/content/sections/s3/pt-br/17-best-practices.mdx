@@ -1,0 +1,37 @@
+---
+service: s3
+key: best-practices
+order: 17
+block: wrap
+anchor: boas-praticas
+title: 'Boas práticas e erros comuns'
+navLabel: Boas práticas
+summary: 'Bloqueio público ligado, versionamento, região certa e nada de senha no código.'
+---
+
+Errar faz parte, e quase todo mundo tropeça nos mesmos lugares. A boa notícia: cada erro tem uma saída simples.
+
+<CardGrid>
+  <Card title="Bucket público por engano">
+    Deixe o Bloqueio de Acesso Público ligado em todo bucket que não for site. Para compartilhar um
+    arquivo, use uma URL pré-assinada.
+  </Card>
+  <Card title="Sem versionamento">
+    Ligue o versionamento nos buckets com dados importantes. Uma regra de ciclo de vida apaga as
+    versões antigas para a conta não crescer.
+  </Card>
+  <Card title="Região errada">
+    Crie o bucket perto de quem usa os dados. A região não muda depois: para trocar, só criando
+    outro bucket e copiando tudo.
+  </Card>
+  <Card title="Credenciais no código">
+    Nunca cole chaves de acesso no código nem no GitHub. Deixe o SDK buscar as credenciais no
+    ambiente.
+  </Card>
+</CardGrid>
+
+Não precisa decorar. O próprio console pede confirmação antes de você desligar o Bloqueio de Acesso Público.
+
+<SmallWin>Pronto, você já sabe evitar os erros mais comuns.</SmallWin>
+
+<NextHook>Falta só juntar tudo numa tela.</NextHook>

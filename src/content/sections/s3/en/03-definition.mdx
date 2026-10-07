@@ -1,0 +1,37 @@
+---
+service: s3
+key: definition
+order: 3
+block: what
+anchor: what-is-s3
+title: What S3 is
+navLabel: What S3 is
+summary: An object storage service that takes care of space, durability and access.
+---
+
+Amazon S3 is an **object storage** service in the cloud. You upload files and AWS takes care of the space, the backup copies and the access.
+
+Each file becomes an <Term id="object" />, kept inside a <Term id="bucket" />. There is no disk to format and no server to turn on.
+
+<CardGrid>
+  <Card title="Space">
+    You do not reserve a size. Store a 1 KB file or terabytes of video, and pay only for what you
+    used.
+  </Card>
+  <Card title="Durability">
+    Each object is copied to several devices, across at least three
+    <Term id="availability-zone">Availability Zones</Term>. The designed
+    <Term id="durability" /> is 99.999999999% per year.
+  </Card>
+  <Card title="Access">
+    You read and write over the internet, from anywhere: through the console, the command line or
+    your code.
+  </Card>
+  <Card title="No server">
+    Nothing to install, update or restart. S3 is always on, waiting for your files.
+  </Card>
+</CardGrid>
+
+<SmallWin>Done, you now know what S3 is.</SmallWin>
+
+<NextHook>But how do you picture something that never fills up?</NextHook>

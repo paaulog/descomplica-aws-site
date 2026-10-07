@@ -1,0 +1,37 @@
+# build
+dist/
+.astro/
+.vercel/
+
+# deps
+node_modules/
+
+# testes
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+blob-report/
+playwright/.cache/
+
+# logs
+npm-debug.log*
+
+# ambiente
+.env
+.env.*
+!.env.example
+
+# sistema
+.DS_Store
+Thumbs.db
+.idea/
+node_modules
+
+# fluxo de trabalho dos agentes (não faz parte do site)
+create_tasks.md
+create_techspec.md
+execute_review.md
+execute_task.md
+tasks/
+.claude/

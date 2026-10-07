@@ -1,0 +1,81 @@
+---
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const t = createTranslator(Astro.props.locale);
+---
+
+<button
+  type="button"
+  class="theme-toggle inline-flex size-10 items-center justify-center rounded-md text-muted transition-colors hover:bg-accent-soft hover:text-fg"
+  aria-pressed="false"
+  data-theme-toggle
+>
+  <span class="sr-only">{t('theme.dark')}</span>
+  <svg
+    class="size-5 dark:hidden"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+  </svg>
+  <svg
+    class="hidden size-5 dark:block"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+  </svg>
+</button>
+
+<style>
+  /* Toggling needs JS; without it the page simply follows the system theme. */
+  :global(html:not(.js)) .theme-toggle {
+    display: none;
+  }
+</style>
+
+<script>
+  import {
+    applyTheme,
+    getNextTheme,
+    getPreferredTheme,
+    getSystemTheme,
+    readStoredTheme,
+    saveTheme,
+    DARK_SCHEME_QUERY,
+    type Theme,
+  } from '../../lib/theme/theme';
+
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+
+  function renderTheme(theme: Theme): void {
+    applyTheme(theme);
+    for (const button of buttons) button.setAttribute('aria-pressed', String(theme === 'dark'));
+  }
+
+  renderTheme(getPreferredTheme());
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      const next = getNextTheme();
+      saveTheme(next);
+      renderTheme(next);
+    });
+  }
+  window.matchMedia(DARK_SCHEME_QUERY).addEventListener('change', () => {
+    if (readStoredTheme() === null) renderTheme(getSystemTheme());
+  });
+</script>

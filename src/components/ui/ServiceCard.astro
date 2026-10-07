@@ -1,0 +1,57 @@
+---
+import type { Service } from '../../data/services';
+import { localizedPath } from '../../lib/i18n/routes';
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+
+interface Props {
+  service: Service;
+  locale: Locale;
+}
+
+const { service, locale } = Astro.props;
+const t = createTranslator(locale);
+const isActive = service.status === 'active';
+---
+
+<article
+  class:list={[
+    'group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-6 transition-transform duration-200',
+    isActive
+      ? 'hover:-translate-y-0.5 hover:border-accent focus-within:border-accent motion-reduce:hover:translate-y-0'
+      : 'border-dashed',
+  ]}
+  data-service={service.id}
+  data-status={service.status}
+>
+  <span class="mb-6 block h-1 w-10 rounded-full bg-accent" aria-hidden="true"></span>
+  <h3 class="text-xl font-semibold tracking-tight">
+    {isActive ? (
+      <a
+        href={localizedPath(locale, `/${service.id}/`)}
+        class="after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none"
+      >
+        {service.title[locale]}
+      </a>
+    ) : (
+      service.title[locale]
+    )}
+  </h3>
+  <p class="mt-2 flex-1 text-muted">{service.tagline[locale]}</p>
+  {isActive ? (
+    <span class="mt-6 text-sm font-medium text-accent" aria-hidden="true">
+      {t('service.cta')} →
+    </span>
+  ) : (
+    <span class="mt-6 inline-flex w-fit rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-muted">
+      {t('service.status.soon')}
+    </span>
+  )}
+</article>
+
+<style>
+  /* The stretched link covers the card, so the focus ring is drawn on the card itself. */
+  article:has(a:focus-visible) {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+</style>
