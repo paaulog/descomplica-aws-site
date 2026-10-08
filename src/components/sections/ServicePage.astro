@@ -40,9 +40,15 @@ const rendered = await Promise.all(
   anchorMap={anchorMap}
 >
   <SectionNav sections={sections.map((section) => section.data)} locale={locale} />
-  <article class="mx-auto max-w-2xl px-4 sm:px-6">
+  <article class="mx-auto max-w-6xl px-5 sm:px-8 lg:pr-24">
     {rendered.map(({ data, Content }, index) => (
-      <SectionShell section={data} locale={locale} headingLevel={index === 0 ? 1 : 2}>
+      <SectionShell
+        section={data}
+        locale={locale}
+        headingLevel={index === 0 ? 1 : 2}
+        serviceId={service.id}
+        blockStart={index > 0 && data.block !== rendered[index - 1]?.data.block}
+      >
         <Content components={mdxComponents} />
       </SectionShell>
     ))}

@@ -5,9 +5,8 @@
 <svg width="0" height="0" class="pointer-events-none absolute" aria-hidden="true" focusable="false">
   <defs>
     <linearGradient id="g-bucket" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" style="stop-color: var(--art-light)"></stop>
-      <stop offset="0.55" style="stop-color: var(--art)"></stop>
-      <stop offset="1" style="stop-color: var(--art-deep)"></stop>
+      <stop offset="0" style="stop-color: var(--art)"></stop>
+      <stop offset="1" style="stop-color: color-mix(in oklab, var(--art) 82%, black)"></stop>
     </linearGradient>
     <linearGradient id="g-paper" x1="0" y1="0" x2="0.4" y2="1">
       <stop offset="0" style="stop-color: light-dark(#ffffff, #eef4ff)"></stop>
@@ -22,11 +21,11 @@
       <stop offset="1" style="stop-color: #0a1220"></stop>
     </linearGradient>
     <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" style="stop-color: #6fd6f2"></stop>
+      <stop offset="0" style="stop-color: #2bb4dc"></stop>
       <stop offset="1" style="stop-color: #0a8fbd"></stop>
     </linearGradient>
     <linearGradient id="g-orange" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" style="stop-color: #ffc15a"></stop>
+      <stop offset="0" style="stop-color: #ffa21f"></stop>
       <stop offset="1" style="stop-color: #f08400"></stop>
     </linearGradient>
     <linearGradient id="g-cloud" gradientUnits="userSpaceOnUse" x1="0" y1="10" x2="0" y2="116">
@@ -38,13 +37,6 @@
   <symbol id="art-bucket" viewBox="0 0 120 140">
     <ellipse cx="60" cy="128" rx="46" ry="9" fill="#000" opacity="0.2"></ellipse>
     <path d="M12 30 24 118Q60 134 96 118L108 30Z" fill="url(#g-bucket)"></path>
-    <path
-      d="M30 42 37 110"
-      stroke="#fff"
-      stroke-opacity="0.32"
-      stroke-width="7"
-      stroke-linecap="round"
-    ></path>
     <ellipse cx="60" cy="30" rx="48" ry="14" style="fill: var(--art-deep)"></ellipse>
     <ellipse cx="60" cy="33" rx="39" ry="9" fill="#000" opacity="0.4"></ellipse>
     <ellipse
@@ -101,10 +93,6 @@
       stroke-linecap="round"
       fill="none"
     ></path>
-  </symbol>
-
-  <symbol id="art-spark" viewBox="-10 -10 20 20">
-    <path d="M0-9 2-2 9 0 2 2 0 9-2 2-9 0-2-2Z" fill="#fff"></path>
   </symbol>
 
   <symbol id="art-ico-s3" viewBox="0 0 48 48">

@@ -37,7 +37,7 @@ test.describe('tema claro do sistema', () => {
     await page.goto('/s3/');
     await expect(theme(page)).toHaveAttribute('data-theme', 'dark');
     const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(background).toBe('rgb(6, 11, 20)');
+    expect(background).toBe('rgb(11, 17, 27)');
   });
 });
 

@@ -1,5 +1,7 @@
 ---
 import SectionArt from '../art/SectionArt.astro';
+import ServiceIcon from '../art/ServiceIcon.astro';
+import type { ServiceId } from '../../data/services';
 import type { SectionData } from '../../lib/content/schemas';
 import { createTranslator, type Locale } from '../../lib/i18n/ui';
 
@@ -7,102 +9,89 @@ interface Props {
   section: SectionData;
   locale: Locale;
   headingLevel: 1 | 2;
+  serviceId?: ServiceId;
+  /** True for the first section of a block: it gets the block divider above it. */
+  blockStart?: boolean;
 }
 
-const { section, locale, headingLevel } = Astro.props;
+const { section, locale, headingLevel, serviceId, blockStart = false } = Astro.props;
 const t = createTranslator(locale);
 const Heading = headingLevel === 1 ? 'h1' : 'h2';
 const headingId = `${section.anchor}--heading`;
 // The opening holds the h1 (the LCP element), so it is never hidden for the reveal effect.
 const isOpening = headingLevel === 1;
-const sectionNumber = String(section.order).padStart(2, '0');
 ---
 
+{blockStart && <p class="block-divider">{t(`section.block.${section.block}`)}</p>}
 <section
   id={section.anchor}
   aria-labelledby={headingId}
-  class:list={['section-anchor py-14 sm:py-20', { reveal: !isOpening }]}
+  class:list={[
+    'section-anchor',
+    isOpening ? 'pt-10 pb-12 sm:pt-16 sm:pb-16' : 'py-12 sm:py-16',
+    { reveal: !isOpening },
+  ]}
   data-section-key={section.key}
 >
-  <div class:list={['art-stage glass', { 'art-stage--opening': isOpening }]} data-art-stage>
-    <SectionArt name={section.key} />
-  </div>
-  <p class="mt-10 flex items-center gap-3 text-sm font-semibold tracking-widest text-accent uppercase">
-    <span class="section-num" aria-hidden="true">
-      {sectionNumber}
-    </span>
-    {t(`section.block.${section.block}`)}
-  </p>
-  <div class="group mt-3 flex items-start gap-2">
-    <Heading
-      id={headingId}
-      class:list={[
-        'font-bold tracking-tight text-balance',
-        isOpening ? 'text-5xl leading-[1.04] sm:text-6xl' : 'text-3xl leading-tight sm:text-5xl',
-      ]}
-    >
-      {section.title}
-    </Heading>
-    <a
-      href={`#${section.anchor}`}
-      class="mt-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted opacity-60 transition-opacity group-hover:opacity-100 hover:text-accent focus-visible:opacity-100"
-      data-copy-link
-    >
-      <span class="sr-only">
-        {t('section.copyLink')}: {section.title}
-      </span>
-      <svg
-        class="size-4"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        aria-hidden="true"
+  <div
+    class:list={[
+      'grid gap-8 lg:items-center',
+      isOpening ? 'lg:grid-cols-[minmax(0,1fr)_24rem]' : 'lg:grid-cols-[minmax(0,1fr)_20rem]',
+    ]}
+  >
+    <div class="group flex items-start gap-2">
+      <Heading
+        id={headingId}
+        class:list={[
+          'font-bold tracking-[-0.025em] text-balance',
+          isOpening
+            ? 'text-[2.5rem] leading-[1.05] sm:text-5xl lg:text-6xl'
+            : 'text-3xl leading-[1.12] sm:text-4xl lg:text-5xl',
+        ]}
       >
-        <path d="M10 14a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"></path>
-        <path d="M14 10a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"></path>
-      </svg>
-    </a>
-    <span
-      class="mt-2 text-sm text-accent opacity-0 transition-opacity data-[visible]:opacity-100"
-      role="status"
-      data-copy-status
-      data-message={t('section.linkCopied')}
-    ></span>
+        {section.title}
+      </Heading>
+      <a
+        href={`#${section.anchor}`}
+        class="mt-1 inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted opacity-60 transition-opacity group-hover:opacity-100 hover:text-accent focus-visible:opacity-100"
+        data-copy-link
+      >
+        <span class="sr-only">
+          {t('section.copyLink')}: {section.title}
+        </span>
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M10 14a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"></path>
+          <path d="M14 10a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"></path>
+        </svg>
+      </a>
+      <span
+        class="mt-2 text-sm text-accent opacity-0 transition-opacity data-[visible]:opacity-100"
+        role="status"
+        data-copy-status
+        data-message={t('section.linkCopied')}
+      ></span>
+    </div>
+    <div class="art-stage" data-art-stage>
+      {serviceId && (
+        <span class="art-badge" aria-hidden="true">
+          <ServiceIcon id={serviceId} class="size-5" />
+        </span>
+      )}
+      <SectionArt name={section.key} />
+    </div>
   </div>
   <div class="prose-content mt-8">
     <slot />
   </div>
 </section>
-
-<style>
-  .art-stage--opening {
-    padding: 1.5rem;
-  }
-
-  .art-stage--opening :global(.art-svg) {
-    max-height: 19rem;
-  }
-
-  @media (min-width: 64rem) {
-    .art-stage--opening {
-      margin-inline: -4rem;
-    }
-  }
-
-  .section-num {
-    font-family: var(--font-display);
-    font-size: 2.75rem;
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    background: linear-gradient(180deg, var(--art-light), var(--art) 70%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-</style>
 
 <script>
   import { observeArtStages } from '../../lib/ui/art-visibility';

@@ -13,15 +13,8 @@ const { title, source, sourceLabel } = Astro.props;
 const t = createTranslator(splitLocale(Astro.url.pathname).locale);
 ---
 
-<div
-  class="card glass glass-spot flex flex-col rounded-3xl p-5 transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-  data-spot
->
-  <span
-    class="mb-3 block h-1.5 w-9 rounded-full bg-gradient-to-r from-(--art-light) to-(--art)"
-    aria-hidden="true"
-  ></span>
-  <p class="font-display text-lg leading-snug font-bold text-fg">{title}</p>
+<div class="card panel flex flex-col p-5 transition-colors duration-200 hover:border-[color-mix(in_oklab,var(--art)_65%,transparent)]">
+  <p class="font-display text-lg leading-snug font-semibold text-fg">{title}</p>
   <div class="mt-2 flex-1 text-base leading-relaxed text-muted [&_strong]:text-fg">
     <slot />
   </div>

@@ -16,25 +16,23 @@ const isActive = service.status === 'active';
 
 <article
   class:list={[
-    'service-card glass group relative flex h-full flex-col rounded-3xl p-6',
-    isActive && 'glass-spot service-card--active',
+    'service-card panel group relative flex h-full flex-col p-5 transition-colors duration-200',
+    isActive ? 'service-card--active hover:border-(--art)' : 'opacity-80',
   ]}
   data-service={service.id}
   data-status={service.status}
-  data-spot={isActive ? '' : undefined}
-  data-tilt={isActive ? '' : undefined}
 >
   <span
-    class="mb-8 grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-(--art-light) to-(--art) text-[#0b1220] shadow-[0_14px_28px_-10px_var(--art),inset_0_1px_0_rgb(255_255_255/0.6)]"
+    class="mb-6 grid size-11 place-items-center rounded-xl bg-(--art) text-[#10151f]"
     aria-hidden="true"
   >
-    <ServiceIcon id={service.id} class="size-8" />
+    <ServiceIcon id={service.id} class="size-6" />
   </span>
-  <h3 class="font-display text-2xl font-bold tracking-tight">
+  <h3 class="font-display text-xl font-semibold tracking-tight">
     {isActive ? (
       <a
         href={localizedPath(locale, `/${service.id}/`)}
-        class="after:absolute after:inset-0 after:rounded-3xl focus-visible:outline-none"
+        class="after:absolute after:inset-0 after:rounded-[0.875rem] focus-visible:outline-none"
       >
         {service.title[locale]}
       </a>
@@ -42,26 +40,21 @@ const isActive = service.status === 'active';
       service.title[locale]
     )}
   </h3>
-  <p class="mt-2 flex-1 text-muted">{service.tagline[locale]}</p>
+  <p class="mt-2 flex-1 leading-relaxed text-muted">{service.tagline[locale]}</p>
   {isActive ? (
     <span class="mt-6 text-sm font-semibold text-accent" aria-hidden="true">
       {t('service.cta')} <span class="service-arrow inline-block transition-transform">→</span>
     </span>
   ) : (
-    <span class="mt-6 inline-flex w-fit rounded-full border border-border px-3 py-1 text-xs font-medium text-muted">
+    <span class="mt-6 inline-flex w-fit rounded-md border border-border px-2.5 py-1 text-xs font-medium text-muted">
       {t('service.status.soon')}
     </span>
   )}
 </article>
 
 <style>
-  .service-card--active {
-    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-    transition: transform 0.25s ease-out;
-  }
-
   .service-card--active:hover .service-arrow {
-    transform: translateX(5px);
+    transform: translateX(4px);
   }
 
   /* The stretched link covers the card, so the focus ring is drawn on the card itself. */
@@ -71,7 +64,6 @@ const isActive = service.status === 'active';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .service-card--active,
     .service-arrow {
       transition: none;
     }

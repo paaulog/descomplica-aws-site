@@ -11,8 +11,8 @@ const { title } = Astro.props;
 ---
 
 <aside class="analogy glass glass-spot overflow-hidden rounded-3xl p-6 sm:p-8" data-spot>
-  <p class="flex items-center gap-3 text-sm font-semibold tracking-wide text-accent uppercase">
-    <span class="grid size-9 place-items-center rounded-full bg-gradient-to-br from-(--art-light) to-(--art) text-[#0b1220] shadow-[0_8px_20px_-6px_var(--art)]">
+  <p class="flex items-center gap-3 text-base font-semibold text-accent">
+    <span class="grid size-9 place-items-center rounded-xl bg-(--art) text-[#10151f]">
       <svg
         class="size-5"
         viewBox="0 0 24 24"
@@ -29,7 +29,7 @@ const { title } = Astro.props;
     {t('analogy.label')}
   </p>
   {title && <p class="mt-4 font-display text-2xl leading-tight font-bold">{title}</p>}
-  <div class="mt-4 space-y-3 text-fg">
+  <div class="mt-4 max-w-2xl space-y-3 text-fg">
     <slot />
   </div>
 </aside>

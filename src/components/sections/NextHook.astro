@@ -5,15 +5,15 @@ import { createTranslator } from '../../lib/i18n/ui';
 const t = createTranslator(splitLocale(Astro.url.pathname).locale);
 ---
 
-<div class="next-hook glass flex items-center gap-4 rounded-2xl py-4 pr-4 pl-5" data-next-hook>
+<div class="next-hook panel flex items-center gap-4 py-4 pr-4 pl-5" data-next-hook>
   <div class="min-w-0 flex-1">
-    <p class="text-xs font-semibold tracking-widest text-accent uppercase">{t('nextHook.label')}</p>
-    <div class="mt-1 font-display text-lg leading-snug font-semibold text-pretty text-fg">
+    <p class="text-sm font-medium text-muted">{t('nextHook.label')}</p>
+    <div class="mt-0.5 font-display text-lg leading-snug font-semibold text-pretty text-fg">
       <slot />
     </div>
   </div>
   <span
-    class="hook-arrow grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-(--art-light) to-(--art) text-[#0b1220]"
+    class="hook-arrow grid size-10 shrink-0 place-items-center rounded-xl bg-(--art) text-[#10151f]"
     aria-hidden="true"
   >
     <svg
@@ -33,13 +33,13 @@ const t = createTranslator(splitLocale(Astro.url.pathname).locale);
 <style>
   @media (prefers-reduced-motion: no-preference) {
     .hook-arrow {
-      animation: hook-bob 1.8s ease-in-out infinite;
+      animation: hook-bob 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
     }
   }
 
   @keyframes hook-bob {
     50% {
-      transform: translateY(5px);
+      transform: translateY(4px);
     }
   }
 </style>

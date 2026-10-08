@@ -20,7 +20,7 @@ export function IslandFrame({ island, title, fallback, children }: IslandFramePr
     <div
       role="group"
       aria-labelledby={titleId}
-      className="glass glass-spot my-10 rounded-3xl p-5 sm:p-7"
+      className="glass glass-spot my-10 rounded-3xl p-5 sm:p-8"
       data-island={island}
       data-spot
       data-motion={prefersReducedMotion ? 'reduced' : 'full'}

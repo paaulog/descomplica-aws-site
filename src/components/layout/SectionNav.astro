@@ -13,7 +13,7 @@ const [first] = sections;
 ---
 
 <div
-  class="pointer-events-none fixed inset-x-0 top-0 z-50 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-[#ff9900] via-[#ffc15a] to-accent"
+  class="pointer-events-none fixed inset-x-0 top-0 z-50 h-[3px] origin-left scale-x-0 bg-(--art)"
   aria-hidden="true"
   data-reading-progress
 ></div>
@@ -40,9 +40,12 @@ const [first] = sections;
   data-section-bar
 >
   <summary class="flex h-(--section-bar-height) cursor-pointer list-none items-center gap-3 px-4 text-sm">
-    <span class="flex gap-1" aria-hidden="true">
+    <span class="flex gap-0.5 sm:gap-1" aria-hidden="true">
       {sections.map((section) => (
-        <span class="bar-dash h-1 w-3 rounded-full bg-border" data-bar-dash={section.anchor} />
+        <span
+          class="bar-dash h-1 w-1.5 rounded-full bg-border sm:w-3"
+          data-bar-dash={section.anchor}
+        />
       ))}
     </span>
     <span class="sr-only">{t('nav.current')}:</span>
@@ -115,7 +118,6 @@ const [first] = sections;
 
   .dash[aria-current='location'] .dash-bar {
     background-color: var(--art);
-    box-shadow: 0 0 12px var(--art);
     opacity: 1;
     transform: scaleX(1);
   }
@@ -125,10 +127,10 @@ const [first] = sections;
     right: calc(100% + 0.5rem);
     pointer-events: none;
     padding: 0.25rem 0.625rem;
-    border-radius: 9999px;
+    border-radius: 0.5rem;
     border: 1px solid var(--border);
     background-color: var(--surface-solid);
-    box-shadow: 0 10px 24px -10px var(--glass-shadow);
+    box-shadow: 0 10px 24px -12px var(--glass-shadow);
     font-size: 0.8125rem;
     white-space: nowrap;
     opacity: 0;

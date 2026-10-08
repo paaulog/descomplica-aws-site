@@ -22,36 +22,10 @@ const t = createTranslator(locale);
       class="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight"
       aria-label={t('header.home')}
     >
-      <svg
-        class="size-7 drop-shadow-[0_2px_6px_var(--glow-orange)]"
-        viewBox="0 0 28 28"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#ffc15a"></stop>
-            <stop offset="1" stop-color="#ff9900"></stop>
-          </linearGradient>
-        </defs>
-        <rect x="2" y="3" width="24" height="5.5" rx="2.75" fill="url(#logo-gradient)"></rect>
-        <rect
-          x="2"
-          y="11.25"
-          width="16"
-          height="5.5"
-          rx="2.75"
-          fill="url(#logo-gradient)"
-          opacity="0.75"
-        ></rect>
-        <rect
-          x="2"
-          y="19.5"
-          width="9"
-          height="5.5"
-          rx="2.75"
-          fill="url(#logo-gradient)"
-          opacity="0.5"
-        ></rect>
+      <svg class="size-7" viewBox="0 0 28 28" aria-hidden="true">
+        <rect x="2" y="3" width="24" height="5.5" rx="2" fill="#ff9900"></rect>
+        <rect x="2" y="11.25" width="16" height="5.5" rx="2" fill="#ff9900" opacity="0.75"></rect>
+        <rect x="2" y="19.5" width="9" height="5.5" rx="2" fill="#ff9900" opacity="0.5"></rect>
       </svg>
       <span>{t('site.title')}</span>
     </a>

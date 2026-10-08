@@ -8,15 +8,17 @@ interface Props {
 const t = createTranslator(Astro.props.locale);
 ---
 
-<footer class="mt-24 px-3 pb-6 sm:px-6">
-  <div class="glass mx-auto flex max-w-6xl flex-col gap-3 rounded-3xl px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+<footer class="mt-24 border-t border-border px-5 py-10 sm:px-8">
+  <div class="mx-auto flex max-w-5xl flex-col gap-4 text-sm text-muted sm:flex-row sm:items-start sm:justify-between">
     <div>
       <p class="font-display text-base font-semibold text-fg">{t('site.title')}</p>
-      <p class="mt-2 max-w-2xl">{t('footer.disclaimer')}</p>
+      <p class="mt-2 max-w-2xl leading-relaxed">{t('footer.disclaimer')}</p>
     </div>
-    <span
-      class="h-1.5 w-24 shrink-0 rounded-full bg-gradient-to-r from-[#ff9900] via-[#00a1c9] to-[#7aa116]"
-      aria-hidden="true"
-    ></span>
+    <span class="mt-1 flex shrink-0 gap-1.5" aria-hidden="true">
+      <span class="size-2.5 rounded-sm bg-[#ff9900]"></span>
+      <span class="size-2.5 rounded-sm bg-[#7aa116]"></span>
+      <span class="size-2.5 rounded-sm bg-[#00a1c9]"></span>
+      <span class="size-2.5 rounded-sm bg-[#8c4fff]"></span>
+    </span>
   </div>
 </footer>

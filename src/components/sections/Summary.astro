@@ -15,20 +15,17 @@ const recap = (await getServiceSections(service, locale)).slice(1, -1);
 ---
 
 <div>
-  <p class="text-sm font-semibold tracking-widest text-accent uppercase">{t('summary.label')}</p>
-  <ol class="mt-4 grid list-none gap-3 pl-0 sm:grid-cols-2">
+  <p class="font-display text-xl font-semibold text-fg">{t('summary.label')}</p>
+  <ol class="mt-4 grid list-none gap-x-10 pl-0 sm:grid-cols-2">
     {recap.map((section) => (
-      <li
-        class="glass glass-spot rounded-2xl p-4 transition-transform duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
-        data-spot
-      >
+      <li class="group border-t border-border py-4">
         <a
           href={`#${section.data.anchor}`}
-          class="font-display font-bold no-underline! hover:text-accent"
+          class="font-display font-semibold text-fg no-underline! group-hover:text-accent"
         >
           {section.data.navLabel}
         </a>
-        <p class="mt-1 text-sm text-muted">{section.data.summary}</p>
+        <p class="mt-1 text-sm leading-relaxed text-muted">{section.data.summary}</p>
       </li>
     ))}
   </ol>
