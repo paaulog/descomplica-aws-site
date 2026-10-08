@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isLocale, locales, ui, useTranslations } from '../../../src/lib/i18n/ui';
+import { createTranslator, isLocale, locales, ui } from '@/lib/i18n/ui';
 
 describe('ui', () => {
   it('tem exatamente as mesmas chaves nos dois idiomas', () => {
@@ -14,8 +14,8 @@ describe('ui', () => {
   });
 
   it('traduz pelo idioma', () => {
-    expect(useTranslations('pt-br')('service.status.soon')).toBe('Em breve');
-    expect(useTranslations('en')('service.status.soon')).toBe('Coming soon');
+    expect(createTranslator('pt-br')('service.status.soon')).toBe('Em breve');
+    expect(createTranslator('en')('service.status.soon')).toBe('Coming soon');
   });
 
   it('reconhece só os idiomas suportados', () => {

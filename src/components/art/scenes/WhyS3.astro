@@ -1,0 +1,35 @@
+---
+const zones = [86, 208, 330];
+---
+
+<ellipse class="art-ground" cx="240" cy="218" rx="190" ry="9"></ellipse>
+{zones.map((x, index) => (
+  <g>
+    <path
+      class="art-stroke art-flow"
+      stroke-width="2.5"
+      d={`M240 78C240 110 ${x + 32} 100 ${x + 32} 134`}
+      opacity="0.75"
+    />
+    <ellipse class="art-glass" cx={x + 32} cy="196" rx="52" ry="13" />
+    <use href="#art-bucket" x={x} y="124" width="64" height="75" />
+    <g class="art-pop" style={`--delay: ${index * 1.1}s; --dur: 5s`}>
+      <circle cx={x + 32} cy="118" r="11" fill="#34d399" />
+      <path
+        d={`M${x + 27} 118l4 4 7-8`}
+        fill="none"
+        stroke="#06281b"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </g>
+  </g>
+))}
+<g class="art-float" style="--amp: 6px; --dur: 4.5s">
+  <circle cx="240" cy="48" r="34" class="art-fill" opacity="0.2"></circle>
+  <use href="#art-file" x="223" y="22" width="34" height="42"></use>
+</g>
+<g class="art-pulse" style="--scale: 1.2">
+  <circle cx="240" cy="46" r="40" class="art-stroke" stroke-width="2" opacity="0.5"></circle>
+</g>

@@ -1,0 +1,28 @@
+---
+service: s3
+key: permissions
+order: 10
+block: how
+anchor: permissoes-e-acesso
+title: 'Quem pode abrir o guarda-volumes'
+navLabel: Permissões e acesso
+summary: 'Tudo nasce privado; você abre para o público ou gera um link que expira.'
+---
+
+Lembra do guarda-volumes? Por padrão, só quem tem a chave abre o compartimento. No S3, essa chave são as credenciais da sua conta, e quem decide o que cada uma pode fazer é o <Term id="iam" />.
+
+Existem três jeitos comuns de abrir a porta:
+
+- **Privado (o padrão):** só entra quem tem credenciais e permissão.
+- **Público:** você desliga o <Term id="block-public-access">Bloqueio de Acesso Público</Term> e escreve uma <Term id="bucket-policy">política de bucket</Term> que libera a leitura para todo mundo.
+- **Link temporário:** uma <Term id="presigned-url">URL pré-assinada</Term> funciona só até expirar. Pelo console, ela vale até 12 horas; pelo código ou pela linha de comando, até 7 dias.
+
+Troque o tipo de acesso e veja quem consegue ler o arquivo.
+
+<S3Island name="accessLock" />
+
+Na dúvida, prefira a URL pré-assinada. Ela libera um arquivo específico, por pouco tempo, sem abrir o bucket inteiro.
+
+<SmallWin>Pronto, você já sabe quem pode abrir os seus arquivos.</SmallWin>
+
+<NextHook>E se o arquivo quase nunca for aberto? Precisa pagar o mesmo preço?</NextHook>

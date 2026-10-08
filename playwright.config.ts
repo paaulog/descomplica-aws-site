@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const PORT = 4321;
 const baseURL = `http://127.0.0.1:${PORT}`;
 
-// Roda contra `astro preview`: o build (`npm run build`) precisa existir antes.
+// Runs against `astro preview`, so `dist/` must exist: use `npm run test:e2e:full` locally.
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,

@@ -1,0 +1,36 @@
+---
+const versions = [0, 1, 2, 3];
+---
+
+<ellipse class="art-ground" cx="270" cy="218" rx="150" ry="9"></ellipse>
+{versions.map((version) => (
+  <g
+    class={version === 3 ? 'art-float' : 'art-pop'}
+    style={version === 3 ? '--amp: 6px; --dur: 4.6s' : `--delay: ${version * 1.1}s; --dur: 5.2s`}
+  >
+    <use
+      href="#art-file"
+      x={150 + version * 38}
+      y={50 + (3 - version) * 14}
+      width="92"
+      height="115"
+      opacity={0.45 + version * 0.18}
+    />
+  </g>
+))}
+<g class="art-spin" style="--dur: 14s">
+  <path d="M104 64A52 52 0 1 0 156 116" class="art-stroke" stroke-width="5"></path>
+  <path d="m92 52 16 14-18 8Z" class="art-fill"></path>
+</g>
+<path d="M104 90v26h20" class="art-line"></path>
+{[0, 1, 2].map((tag) => (
+  <rect
+    x="392"
+    y={70 + tag * 34}
+    width={52 - tag * 8}
+    height="18"
+    rx="9"
+    class="art-fill"
+    opacity={0.95 - tag * 0.22}
+  />
+))}

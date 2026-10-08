@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getAlternates, localizedPath, splitLocale } from '../../../src/lib/i18n/routes';
+import { getAlternates, localizedPath, splitLocale } from '@/lib/i18n/routes';
 
 describe('localizedPath', () => {
   it('não prefixa o pt-BR', () => {

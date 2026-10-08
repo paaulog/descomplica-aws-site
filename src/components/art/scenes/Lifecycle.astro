@@ -1,0 +1,40 @@
+---
+const nodes = [
+  { x: 72, icon: 'bucket' },
+  { x: 240, icon: 'box' },
+  { x: 408, icon: 'snow' },
+] as const;
+const route = 'M72 150C130 100 180 100 240 150C300 200 350 200 408 150';
+---
+
+<ellipse class="art-ground" cx="240" cy="220" rx="190" ry="8"></ellipse>
+<path class="art-stroke art-flow" stroke-width="3" d={route} opacity="0.75"></path>
+{nodes.map((node) => (
+  <g>
+    <circle class="art-glass" cx={node.x} cy="150" r="40" />
+    {node.icon === 'bucket' && (
+      <use href="#art-bucket" x={node.x - 20} y="124" width="40" height="47" />
+    )}
+    {node.icon === 'box' && (
+      <g class="art-line" transform={`translate(${node.x} 150)`}>
+        <rect x="-18" y="-16" width="36" height="9" rx="3" />
+        <path d="M-14-7v22h28V-7M-6 2h12" />
+      </g>
+    )}
+    {node.icon === 'snow' && (
+      <g class="art-line" transform={`translate(${node.x} 150)`} style="stroke: #8fd3ff">
+        <path d="M0-19V19M-16.5-9.5 16.5 9.5M-16.5 9.5 16.5-9.5" />
+      </g>
+    )}
+  </g>
+))}
+<g class="art-travel" style={`--path: path('${route}'); --dur: 6s`}>
+  <use href="#art-file" x="-12" y="-15" width="24" height="30"></use>
+</g>
+<g>
+  <circle class="art-glass" cx="240" cy="48" r="30"></circle>
+  <g class="art-spin" style="--dur: 12s">
+    <path d="M240 48V30" class="art-line"></path>
+  </g>
+  <path d="M240 48l12 6" class="art-line"></path>
+</g>

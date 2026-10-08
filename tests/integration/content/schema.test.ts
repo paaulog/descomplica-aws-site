@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { glossarySchema, sectionSchema } from '../../../src/lib/content/schemas';
+import { glossarySchema, sectionSchema } from '@/lib/content/schemas';
 
 const validSection = {
   service: 's3',

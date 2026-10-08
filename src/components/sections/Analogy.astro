@@ -1,0 +1,35 @@
+---
+import { splitLocale } from '../../lib/i18n/routes';
+import { createTranslator } from '../../lib/i18n/ui';
+
+interface Props {
+  title?: string;
+}
+
+const t = createTranslator(splitLocale(Astro.url.pathname).locale);
+const { title } = Astro.props;
+---
+
+<aside class="analogy glass glass-spot overflow-hidden rounded-3xl p-6 sm:p-8" data-spot>
+  <p class="flex items-center gap-3 text-sm font-semibold tracking-wide text-accent uppercase">
+    <span class="grid size-9 place-items-center rounded-full bg-gradient-to-br from-(--art-light) to-(--art) text-[#0b1220] shadow-[0_8px_20px_-6px_var(--art)]">
+      <svg
+        class="size-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z"></path>
+      </svg>
+    </span>
+    {t('analogy.label')}
+  </p>
+  {title && <p class="mt-4 font-display text-2xl leading-tight font-bold">{title}</p>}
+  <div class="mt-4 space-y-3 text-fg">
+    <slot />
+  </div>
+</aside>

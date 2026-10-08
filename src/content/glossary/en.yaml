@@ -1,3 +1,69 @@
 bucket:
   term: bucket
-  definition: A container with a globally unique name where you store your files in S3.
+  definition: A container with a name that is unique across all AWS accounts, where you store your files in S3.
+object:
+  term: object
+  definition: A file stored in S3, together with its metadata and the key that identifies it.
+key:
+  term: key
+  definition: The full name of an object inside the bucket, such as photos/2026/beach.jpg. It is how you find the file.
+region:
+  term: Region
+  definition: The place in the world where AWS keeps your bucket, such as us-east-1 (N. Virginia) or sa-east-1 (São Paulo).
+prefix:
+  term: prefix
+  definition: The start of the key up to the last slash, such as photos/2026/. The console shows prefixes as if they were folders.
+metadata:
+  term: metadata
+  definition: Information stored along with the file, such as its size, its content type and when it was last modified.
+durability:
+  term: durability
+  definition: The chance that a stored file is never lost. S3 Standard is designed for 99.999999999% durability per year.
+availability-zone:
+  term: Availability Zone
+  definition: One or more separate data centers inside a Region, each with its own power and network. If one fails, the others keep going.
+storage-class:
+  term: storage class
+  definition: The plan of each object in S3. It sets how much storing costs, how much reading costs and how fast the file comes back.
+credentials:
+  term: credentials
+  definition: What proves to AWS who you are, such as your console login or the access keys your code uses.
+iam:
+  term: IAM
+  definition: Identity and Access Management, the AWS service that decides who can do what with each resource.
+block-public-access:
+  term: Block Public Access
+  definition: An S3 safety lock, on by default for new buckets, that prevents making buckets and objects public, even by mistake.
+bucket-policy:
+  term: bucket policy
+  definition: A JSON document attached to the bucket that says who can do what with its objects.
+presigned-url:
+  term: presigned URL
+  definition: A link to a private object that carries a signature and works only until its expiration time.
+delete-marker:
+  term: delete marker
+  definition: The placeholder S3 puts in place of a file deleted with versioning on. Removing it brings the file back.
+lifecycle-rule:
+  term: lifecycle rule
+  definition: A bucket rule that changes the class of objects or deletes them after a number of days.
+index-document:
+  term: index document
+  definition: The page a website shows when someone opens an address with no file name, usually index.html.
+cloudfront:
+  term: CloudFront
+  definition: The AWS content delivery network (CDN). It keeps copies of the site close to visitors and provides HTTPS.
+sdk:
+  term: SDK
+  definition: Software Development Kit, an official library that makes the AWS API calls for you, in your language.
+api:
+  term: API
+  definition: The way one program talks to another. The S3 API has operations such as PutObject (upload) and GetObject (read).
+request:
+  term: request
+  definition: Each call made to S3, such as uploading (PUT), reading (GET) or listing objects. S3 charges per thousand requests.
+data-transfer-out:
+  term: data transfer out
+  definition: Data leaving AWS for the internet, such as someone downloading a file. Sending data from the internet into S3 is free.
+free-plan:
+  term: Free Plan
+  definition: The free plan for new accounts created since July 2025. It gives credits to use AWS for up to 6 months, with no charges.

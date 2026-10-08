@@ -1,0 +1,34 @@
+---
+import { pricing } from '../../data/pricing';
+import { formatCalendarDate } from '../../lib/i18n/format';
+import { splitLocale } from '../../lib/i18n/routes';
+import { fillTemplate } from '../../lib/i18n/template';
+import { createTranslator } from '../../lib/i18n/ui';
+
+const locale = splitLocale(Astro.url.pathname).locale;
+const t = createTranslator(locale);
+const date = formatCalendarDate(pricing.verifiedAt, locale);
+const officialPages = pricing.sources.filter((source) => !source.endsWith('.json'));
+---
+
+<div
+  class="rounded-2xl border border-dashed border-border bg-surface p-4 text-sm text-muted"
+  data-pricing-note
+>
+  <p>
+    <time datetime={pricing.verifiedAt} class="font-medium text-fg">
+      {fillTemplate(t('pricing.verified'), { date })}
+    </time>
+  </p>
+  <p class="mt-2">
+    {t('pricing.sources')}:{' '}
+    {officialPages.map((source, index) => (
+      <>
+        {index > 0 && ' · '}
+        <a href={source} rel="noopener" class="text-accent underline underline-offset-2">
+          {source.replace(/^https:\/\//, '').replace(/\/$/, '')}
+        </a>
+      </>
+    ))}
+  </p>
+</div>

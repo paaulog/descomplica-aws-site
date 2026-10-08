@@ -1,0 +1,40 @@
+<ellipse class="art-ground" cx="220" cy="216" rx="170" ry="10"></ellipse>
+{[0, 1, 2].flatMap((column) =>
+  [0, 1].map((row) => {
+    const x = 52 + column * 94;
+    const y = 28 + row * 90;
+    const isOpen = column === 1 && row === 0;
+    return (
+      <g>
+        <rect class="art-glass" x={x} y={y} width="84" height="80" rx="14" />
+        <rect class="art-fill" x={x} y={y} width="84" height="80" rx="14" opacity="0.16" />
+        {isOpen ? (
+          <>
+            <rect x={x + 8} y={y + 8} width="68" height="64" rx="8" fill="#000" opacity="0.28" />
+            <use href="#art-bucket" x={x + 22} y={y + 22} width="40" height="46" />
+            <path d={`M${x + 76} ${y}l24 -6v90l-24 -4Z`} class="art-fill" opacity="0.55" />
+          </>
+        ) : (
+          <>
+            <circle cx={x + 42} cy={y + 34} r="6" class="art-fill-light" />
+            <rect x={x + 28} y={y + 52} width="28" height="6" rx="3" fill="#fff" opacity="0.5" />
+          </>
+        )}
+      </g>
+    );
+  }),
+)}
+<circle cx="372" cy="18" r="5" fill="#fff" opacity="0.8" />
+<g class="art-sway art-sway-top" style="--deg: 9deg; --dur: 3.4s">
+  <path d="M372 18V70" stroke="#fff" stroke-opacity="0.7" stroke-width="2" fill="none"></path>
+  <g transform="rotate(-4 372 100)">
+    <rect x="344" y="70" width="56" height="78" rx="12" class="art-fill"></rect>
+    <rect x="344" y="70" width="56" height="78" rx="12" fill="url(#g-glass)"></rect>
+    <circle cx="372" cy="86" r="5" fill="#0b1220" opacity="0.7"></circle>
+    <rect x="356" y="104" width="32" height="6" rx="3" fill="#0b1220" opacity="0.55"></rect>
+    <rect x="356" y="118" width="22" height="6" rx="3" fill="#0b1220" opacity="0.35"></rect>
+  </g>
+</g>
+<g class="art-pulse">
+  <use href="#art-spark" x="420" y="170" width="16" height="16"></use>
+</g>

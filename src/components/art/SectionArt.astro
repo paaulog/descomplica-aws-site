@@ -1,0 +1,54 @@
+---
+import Analogy from './scenes/Analogy.astro';
+import BestPractices from './scenes/BestPractices.astro';
+import Code from './scenes/Code.astro';
+import Concepts from './scenes/Concepts.astro';
+import Costs from './scenes/Costs.astro';
+import Definition from './scenes/Definition.astro';
+import Examples from './scenes/Examples.astro';
+import FirstSteps from './scenes/FirstSteps.astro';
+import Hero from './scenes/Hero.astro';
+import Lifecycle from './scenes/Lifecycle.astro';
+import Permissions from './scenes/Permissions.astro';
+import Problem from './scenes/Problem.astro';
+import StaticWebsite from './scenes/StaticWebsite.astro';
+import StorageClasses from './scenes/StorageClasses.astro';
+import Summary from './scenes/Summary.astro';
+import UseCases from './scenes/UseCases.astro';
+import Versioning from './scenes/Versioning.astro';
+import WhyS3 from './scenes/WhyS3.astro';
+
+interface Props {
+  /** Section key from the content frontmatter; unknown keys fall back to the opening scene. */
+  name: string;
+}
+
+const scenes = {
+  hero: Hero,
+  problem: Problem,
+  definition: Definition,
+  analogy: Analogy,
+  concepts: Concepts,
+  'use-cases': UseCases,
+  examples: Examples,
+  'why-s3': WhyS3,
+  'first-steps': FirstSteps,
+  permissions: Permissions,
+  'storage-classes': StorageClasses,
+  versioning: Versioning,
+  lifecycle: Lifecycle,
+  'static-website': StaticWebsite,
+  code: Code,
+  costs: Costs,
+  'best-practices': BestPractices,
+  summary: Summary,
+} as const;
+
+const Scene = Object.hasOwn(scenes, Astro.props.name)
+  ? scenes[Astro.props.name as keyof typeof scenes]
+  : Hero;
+---
+
+<svg class="art-svg" viewBox="0 0 480 240" role="presentation" aria-hidden="true" focusable="false">
+  <Scene />
+</svg>

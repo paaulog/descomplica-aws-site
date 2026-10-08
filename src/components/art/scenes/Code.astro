@@ -1,0 +1,58 @@
+---
+const lines = [
+  { y: 82, width: 170, delay: 0, color: 'var(--art-light)' },
+  { y: 112, width: 230, delay: 0.7, color: '#6fd6f2' },
+  { y: 142, width: 130, delay: 1.4, color: '#ffc15a' },
+  { y: 172, width: 190, delay: 2.1, color: '#c4b5fd' },
+] as const;
+---
+
+<ellipse class="art-ground" cx="240" cy="220" rx="170" ry="8"></ellipse>
+<rect x="70" y="24" width="340" height="190" rx="20" fill="url(#g-ink)"></rect>
+<rect
+  x="70"
+  y="24"
+  width="340"
+  height="190"
+  rx="20"
+  fill="none"
+  stroke="#fff"
+  stroke-opacity="0.22"
+></rect>
+<line x1="70" y1="56" x2="410" y2="56" stroke="#fff" stroke-opacity="0.12"></line>
+<circle cx="94" cy="40" r="5" fill="#fb6a74"></circle>
+<circle cx="112" cy="40" r="5" fill="#fbbf24"></circle>
+<circle cx="130" cy="40" r="5" fill="#34d399"></circle>
+{lines.map((line) => (
+  <g>
+    <path
+      d={`M94 ${line.y - 7}l8 7-8 7`}
+      fill="none"
+      stroke="#fff"
+      stroke-opacity="0.55"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <rect
+      class="art-grow"
+      x="114"
+      y={line.y - 6}
+      width={line.width}
+      height="12"
+      rx="6"
+      fill={line.color}
+      style={`--delay: ${line.delay}s; --dur: 6s`}
+    />
+  </g>
+))}
+<rect
+  class="art-blink"
+  x="320"
+  y="164"
+  width="10"
+  height="16"
+  rx="2"
+  fill="#fff"
+  opacity="0.85"
+></rect>

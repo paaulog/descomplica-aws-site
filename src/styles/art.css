@@ -1,0 +1,292 @@
+/*
+ * Illustration motion kit. Every scene is a static, finished picture first: each keyframe
+ * returns to the resting pose, so reduced motion (or a paused scene) never looks broken.
+ */
+.art-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.art-svg * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.art-float {
+  animation: art-float var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-sway {
+  animation: art-sway var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-pulse {
+  animation: art-pulse var(--dur, 2.6s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-spin {
+  animation: art-spin var(--dur, 24s) linear infinite;
+}
+
+.art-drop {
+  animation: art-drop var(--dur, 4.5s) ease-in var(--delay, 0s) infinite;
+}
+
+.art-flow {
+  stroke-dasharray: 3 9;
+  stroke-linecap: round;
+  animation: art-flow 1.4s linear infinite;
+}
+
+.art-grow {
+  transform-origin: left center;
+  animation: art-grow var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-rise {
+  transform-origin: center bottom;
+  animation: art-rise var(--dur, 3.6s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-pop {
+  animation: art-pop var(--dur, 4.5s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-blink {
+  animation: art-blink 1.1s steps(1) infinite;
+}
+
+.art-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: art-draw var(--dur, 4.5s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-travel {
+  offset-path: var(--path);
+  offset-rotate: 0deg;
+  animation: art-travel var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+}
+
+.art-fall {
+  animation: art-fall var(--dur, 4s) ease-in var(--delay, 0s) infinite;
+}
+
+/* Offscreen scenes sleep: sleeping 18 loops keeps long pages light. */
+:root.js .art-stage:not([data-inview]) .art-svg * {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-svg * {
+    animation: none !important;
+  }
+
+  .art-travel {
+    display: none;
+  }
+}
+
+@keyframes art-float {
+  50% {
+    transform: translateY(calc(var(--amp, 8px) * -1));
+  }
+}
+
+@keyframes art-sway {
+  0%,
+  100% {
+    transform: rotate(calc(var(--deg, 6deg) * -1));
+  }
+
+  50% {
+    transform: rotate(var(--deg, 6deg));
+  }
+}
+
+@keyframes art-pulse {
+  50% {
+    transform: scale(var(--scale, 1.08));
+    opacity: var(--lo, 0.6);
+  }
+}
+
+@keyframes art-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes art-drop {
+  0% {
+    transform: translateY(-84px) rotate(var(--r0, -10deg));
+    opacity: 0;
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  58% {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+
+  76%,
+  100% {
+    transform: translateY(14px) scale(0.55);
+    opacity: 0;
+  }
+}
+
+@keyframes art-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes art-grow {
+  0% {
+    transform: scaleX(0.12);
+  }
+
+  55%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes art-rise {
+  0% {
+    transform: scaleY(0.25);
+  }
+
+  55%,
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes art-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  8% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  22% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+
+  32% {
+    transform: scale(1);
+  }
+}
+
+@keyframes art-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes art-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+
+  35%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes art-travel {
+  from {
+    offset-distance: 0%;
+  }
+
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes art-fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(46px) rotate(var(--r1, 40deg));
+    opacity: 0;
+  }
+}
+
+.art-fill {
+  fill: var(--art);
+}
+
+.art-fill-light {
+  fill: var(--art-light);
+}
+
+.art-fill-deep {
+  fill: var(--art-deep);
+}
+
+.art-stroke {
+  fill: none;
+  stroke: var(--art);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-line {
+  fill: none;
+  stroke: var(--art-light);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-ground {
+  fill: #000;
+  opacity: 0.14;
+}
+
+.art-glass {
+  fill: url(#g-glass);
+  stroke: #fff;
+  stroke-opacity: 0.55;
+  stroke-width: 1.5;
+}
+
+.art-sway-top {
+  transform-origin: 50% 0;
+}
+
+.art-sweep {
+  animation: art-sweep var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+
+@keyframes art-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  60%,
+  100% {
+    transform: translateX(120%);
+  }
+}

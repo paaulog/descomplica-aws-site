@@ -6,13 +6,14 @@ export type ServiceId = (typeof serviceIds)[number];
 export const serviceStatuses = ['active', 'soon'] as const;
 export type ServiceStatus = (typeof serviceStatuses)[number];
 
+export const accentTokens = ['green', 'orange', 'amber', 'violet'] as const;
+export type AccentToken = (typeof accentTokens)[number];
+
 export interface Service {
   id: ServiceId;
   status: ServiceStatus;
-  /** Fase do roadmap do PRD em que o serviço entra. */
   phase: number;
-  /** Nome do token de destaque usado em `[data-service]`. */
-  accent: string;
+  accent: AccentToken;
   order: number;
   title: Record<Locale, string>;
   tagline: Record<Locale, string>;
@@ -71,4 +72,14 @@ export const services: readonly Service[] = [
 
 export function getActiveServices(): Service[] {
   return services.filter((service) => service.status === 'active');
+}
+
+export function isServiceId(value: unknown): value is ServiceId {
+  return serviceIds.includes(value as ServiceId);
+}
+
+export function getNextService(): Service | undefined {
+  return services
+    .filter((service) => service.status === 'soon')
+    .toSorted((first, second) => first.order - second.order)[0];
 }

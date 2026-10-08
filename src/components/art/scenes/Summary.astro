@@ -1,0 +1,50 @@
+---
+const confetti = [
+  { x: 120, delay: 0, color: '#ffc15a', r1: 60 },
+  { x: 168, delay: 1.1, color: '#6fd6f2', r1: -50 },
+  { x: 214, delay: 0.5, color: '#34d399', r1: 90 },
+  { x: 268, delay: 1.7, color: '#c4b5fd', r1: -80 },
+  { x: 318, delay: 0.9, color: '#ffc15a', r1: 50 },
+  { x: 364, delay: 1.4, color: '#6fd6f2', r1: -40 },
+] as const;
+---
+
+<ellipse class="art-ground" cx="240" cy="216" rx="130" ry="10"></ellipse>
+<use href="#art-bucket" x="180" y="76" width="120" height="140"></use>
+<g class="art-pop" style="--dur: 4s">
+  <circle
+    cx="300"
+    cy="86"
+    r="26"
+    fill="#34d399"
+    stroke="#fff"
+    stroke-opacity="0.7"
+    stroke-width="3"
+  ></circle>
+  <path
+    d="m288 86 8 9 15-18"
+    fill="none"
+    stroke="#06281b"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  ></path>
+</g>
+{confetti.map((piece, index) => (
+  <g class="art-fall" style={`--delay: ${piece.delay}s; --dur: 3.4s; --r1: ${piece.r1}deg`}>
+    <rect
+      x={piece.x}
+      y={index % 2 === 0 ? 26 : 44}
+      width="10"
+      height="16"
+      rx="3"
+      fill={piece.color}
+    />
+  </g>
+))}
+<g class="art-pulse">
+  <use href="#art-spark" x="118" y="108" width="20" height="20"></use>
+</g>
+<g class="art-pulse" style="--delay: 1s">
+  <use href="#art-spark" x="352" y="136" width="16" height="16"></use>
+</g>

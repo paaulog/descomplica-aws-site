@@ -1,0 +1,61 @@
+<ellipse class="art-ground" cx="240" cy="220" rx="160" ry="8"></ellipse>
+<g class="art-float" style="--amp: 5px; --dur: 5s">
+  <path
+    d="M142 28 220 54v62c0 42-30 66-78 84-48-18-78-42-78-84V54Z"
+    fill="url(#g-bucket)"
+    transform="translate(-20 0)"
+  ></path>
+  <path
+    d="M122 28 200 54v62c0 42-30 66-78 84"
+    fill="none"
+    stroke="#fff"
+    stroke-opacity="0.35"
+    stroke-width="3"
+  ></path>
+  <path
+    class="art-draw"
+    pathLength="1"
+    d="m84 112 28 28 52-58"
+    fill="none"
+    stroke="#fff"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style="--dur: 4s"
+  ></path>
+</g>
+{[0, 1, 2].map((row) => (
+  <g>
+    <rect class="art-glass" x="250" y={52 + row * 56} width="190" height="44" rx="16" />
+    <circle cx="276" cy={74 + row * 56} r="12" fill="#34d399" />
+    <path
+      class="art-draw"
+      pathLength="1"
+      d={`m270 ${74 + row * 56} 5 5 8-10`}
+      fill="none"
+      stroke="#06281b"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      style={`--delay: ${0.6 + row * 0.7}s; --dur: 4s`}
+    />
+    <rect
+      x="300"
+      y={68 + row * 56}
+      width={110 - row * 18}
+      height="8"
+      rx="4"
+      fill="#fff"
+      opacity="0.5"
+    />
+    <rect
+      x="300"
+      y={82 + row * 56}
+      width={70 - row * 8}
+      height="6"
+      rx="3"
+      fill="#fff"
+      opacity="0.28"
+    />
+  </g>
+))}

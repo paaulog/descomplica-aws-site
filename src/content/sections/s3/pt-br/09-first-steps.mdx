@@ -1,0 +1,30 @@
+---
+service: s3
+key: first-steps
+order: 9
+block: how
+anchor: primeiros-passos
+title: 'Primeiros passos no console'
+navLabel: Primeiros passos
+summary: 'Criar um bucket, enviar um arquivo e abrir pelo link em poucos cliques.'
+---
+
+O caminho no console da AWS tem poucos cliques, e os valores padrão já vêm seguros. Os nomes dos botões estão em inglês, o idioma padrão do console.
+
+<Steps>
+
+1. **Abra o S3.** No console, busque por "S3" na barra do topo e clique em **Create bucket**.
+2. **Dê um nome e escolha a região.** O nome precisa ser único entre todas as contas da AWS, com 3 a 63 caracteres: só minúsculas, números, pontos e hífens.
+3. **Mantenha a segurança padrão.** A opção **Block all public access** já vem marcada. Deixe assim e clique em **Create bucket** no fim da página.
+4. **Envie um arquivo.** Abra o bucket, clique em **Upload**, arraste um arquivo e confirme.
+5. **Tente abrir pelo link.** Clique no objeto e copie a **Object URL**, algo como `https://meu-bucket.s3.us-east-1.amazonaws.com/praia.jpg`. Cole numa aba anônima.
+
+</Steps>
+
+Apareceu um `AccessDenied`? Calma, não deu nada errado. É o S3 protegendo o seu arquivo, porque tudo nasce privado.
+
+Já o botão **Open** do console funciona. Ele gera um link temporário assinado com as suas <Term id="credentials">credenciais</Term>.
+
+<SmallWin>Pronto, você já sabe criar um bucket e enviar um arquivo.</SmallWin>
+
+<NextHook>Mas e se eu quiser que outra pessoa abra esse arquivo?</NextHook>

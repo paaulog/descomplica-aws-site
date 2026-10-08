@@ -1,0 +1,32 @@
+---
+service: s3
+key: problem
+order: 2
+block: what
+anchor: the-problem
+title: Storing files is harder than it looks
+navLabel: The problem
+summary: Your own disk fills up, breaks and goes down when traffic grows.
+---
+
+Imagine your app keeps profile photos on its own server's disk. It works fine at first. Until the day it does not.
+
+<CardGrid>
+  <Card title="The disk fills up">
+    Every new user brings more photos. One day the space runs out, and uploads stop working.
+  </Card>
+  <Card title="The disk breaks">
+    Disks wear out. If one breaks and there is no copy, the photos go with it.
+  </Card>
+  <Card title="Traffic explodes">
+    When the app takes off, the same server has to deliver thousands of files at once.
+  </Card>
+  <Card title="And the bill?">
+    A bigger disk, a spare server, someone to look after the copies. It all costs money, even when
+    idle.
+  </Card>
+</CardGrid>
+
+You might be thinking: "just buy a bigger disk". That works, until next time.
+
+<NextHook>What if someone took care of the space, the copies and the access for you?</NextHook>

@@ -1,0 +1,58 @@
+---
+const tiles = [
+  { x: 74, height: 118, delay: 0, shape: 'circle' },
+  { x: 160, height: 86, delay: 0.5, shape: 'square' },
+  { x: 246, height: 146, delay: 1, shape: 'diamond' },
+  { x: 332, height: 104, delay: 1.5, shape: 'ring' },
+] as const;
+const baseline = 204;
+---
+
+<ellipse class="art-ground" cx="240" cy="214" rx="180" ry="9"></ellipse>
+{tiles.map((tile) => (
+  <g class="art-rise" style={`--delay: ${tile.delay}s; --dur: 4.2s`}>
+    <rect
+      class="art-glass"
+      x={tile.x}
+      y={baseline - tile.height}
+      width="74"
+      height={tile.height}
+      rx="20"
+    />
+    <g transform={`translate(${tile.x + 37} ${baseline - tile.height + 38})`}>
+      {tile.shape === 'circle' && <circle r="15" class="art-fill" />}
+      {tile.shape === 'square' && (
+        <rect x="-14" y="-14" width="28" height="28" rx="8" class="art-fill-light" />
+      )}
+      {tile.shape === 'diamond' && (
+        <rect
+          x="-13"
+          y="-13"
+          width="26"
+          height="26"
+          rx="5"
+          class="art-fill"
+          transform="rotate(45)"
+        />
+      )}
+      {tile.shape === 'ring' && (
+        <circle r="14" fill="none" stroke="var(--art-light)" stroke-width="6" />
+      )}
+    </g>
+    <rect
+      x={tile.x + 16}
+      y={baseline - 30}
+      width="42"
+      height="6"
+      rx="3"
+      fill="#fff"
+      opacity="0.55"
+    />
+  </g>
+))}
+<g class="art-pulse">
+  <use href="#art-spark" x="420" y="38" width="20" height="20"></use>
+</g>
+<g class="art-pulse" style="--delay: 1s">
+  <use href="#art-spark" x="48" y="46" width="14" height="14"></use>
+</g>

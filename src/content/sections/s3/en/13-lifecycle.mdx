@@ -1,0 +1,26 @@
+---
+service: s3
+key: lifecycle
+order: 13
+block: how
+anchor: lifecycle
+title: 'Automatic lifecycle'
+navLabel: Lifecycle
+summary: 'Rules move files to cheaper classes and delete what has expired.'
+---
+
+It can, and not just versions. A <Term id="lifecycle-rule" /> changes the class of objects or deletes them on its own, based on each object's age.
+
+Think of a website's access logs. They are useful in the first month, checked now and then afterwards and forgotten by the end of the year.
+
+Move time forward and watch the file drop down the classes.
+
+<S3Island name="lifecycleAnimation" />
+
+Two things to watch. By default, objects smaller than 128 KB do not change class, because the move fee would cost more than the savings.
+
+And some classes charge a minimum storage time. Deleting or moving before that does not give the money back.
+
+<SmallWin>Done, you now know how to let S3 tidy up on its own.</SmallWin>
+
+<NextHook>What if, instead of logs, the files were a whole website?</NextHook>

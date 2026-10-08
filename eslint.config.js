@@ -19,5 +19,13 @@ export default defineConfig(
       globals: { ...globals.browser, ...globals.node },
     },
   },
+  {
+    // astro-eslint-parser has no projectService support, so typed rules cover TS files only.
+    files: ['**/*.{ts,tsx}'],
+    extends: [tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
+  },
   prettier,
 );

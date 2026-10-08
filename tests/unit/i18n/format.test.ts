@@ -1,32 +1,34 @@
 import { describe, expect, it } from 'vitest';
-import { formatBytes, formatCurrency } from '../../../src/lib/i18n/format';
+import { formatBytes, formatCalendarDate, formatCurrency } from '@/lib/i18n/format';
 
-// Intl usa espaço não separável entre símbolo e número; normaliza para comparar.
+// Intl puts a non-breaking space between symbol and number.
 const plain = (value: string) => value.replace(/\s/g, ' ');
 
 describe('formatCurrency', () => {
   it('formata BRL em pt-BR', () => {
-    expect(plain(formatCurrency(1234.5, 'pt-br', 'BRL'))).toBe('R$ 1.234,50');
+    expect(plain(formatCurrency(1234.5, 'pt-br', { currency: 'BRL' }))).toBe('R$ 1.234,50');
   });
 
   it('formata USD em en', () => {
-    expect(formatCurrency(1234.5, 'en', 'USD')).toBe('$1,234.50');
+    expect(formatCurrency(1234.5, 'en', { currency: 'USD' })).toBe('$1,234.50');
   });
 
   it('formata USD no padrão pt-BR sem converter o valor', () => {
-    expect(plain(formatCurrency(0.023, 'pt-br', 'USD'))).toBe('US$ 0,02');
+    expect(plain(formatCurrency(0.023, 'pt-br', { currency: 'USD' }))).toBe('US$ 0,02');
   });
 
   it('formata zero', () => {
-    expect(formatCurrency(0, 'en', 'USD')).toBe('$0.00');
+    expect(formatCurrency(0, 'en', { currency: 'USD' })).toBe('$0.00');
   });
 
   it('mostra frações de centavo de preços unitários quando pedido', () => {
-    expect(formatCurrency(0.023, 'en', 'USD', { maximumFractionDigits: 4 })).toBe('$0.023');
-    expect(plain(formatCurrency(0.0125, 'pt-br', 'USD', { maximumFractionDigits: 4 }))).toBe(
-      'US$ 0,0125',
+    expect(formatCurrency(0.023, 'en', { currency: 'USD', maximumFractionDigits: 4 })).toBe(
+      '$0.023',
     );
-    expect(formatCurrency(5, 'en', 'USD', { maximumFractionDigits: 4 })).toBe('$5.00');
+    expect(
+      plain(formatCurrency(0.0125, 'pt-br', { currency: 'USD', maximumFractionDigits: 4 })),
+    ).toBe('US$ 0,0125');
+    expect(formatCurrency(5, 'en', { currency: 'USD', maximumFractionDigits: 4 })).toBe('$5.00');
   });
 });
 
@@ -61,5 +63,12 @@ describe('formatBytes', () => {
   it('rejeita tamanhos inválidos', () => {
     expect(() => formatBytes(-1, 'en')).toThrow(RangeError);
     expect(() => formatBytes(Number.NaN, 'en')).toThrow(RangeError);
+  });
+});
+
+describe('formatCalendarDate', () => {
+  it('formata a data por extenso em cada idioma, sem mudar o dia', () => {
+    expect(formatCalendarDate('2026-10-07', 'pt-br')).toBe('7 de outubro de 2026');
+    expect(formatCalendarDate('2026-10-07', 'en')).toBe('October 7, 2026');
   });
 });

@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { getActiveServices } from '../../../src/data/services';
-import { findParityIssues, LocaleParityError } from '../../../src/lib/content/parity';
+import { getActiveServices } from '@/data/services';
+import { findParityIssues, LocaleParityError, selectServiceSections } from '@/lib/content/parity';
 import { loadSections } from './load-sections';
 
 const contentDir = fileURLToPath(new URL('../../../src/content/sections', import.meta.url));
@@ -64,6 +64,16 @@ describe('paridade de conteúdo', () => {
     expect(findParityIssues('s3', [...sections, misplaced])).toContain(
       `${misplaced.id}: service "s3" difere da pasta "S3"`,
     );
+  });
+
+  it('seleciona só as seções do serviço e idioma, ordenadas por order', () => {
+    const sections = fixture('duplicate-anchor').toReversed();
+    const ids = selectServiceSections(sections, 's3', 'pt-br').map(({ id }) => id);
+    expect(ids).toEqual(['s3/pt-br/01-hero', 's3/pt-br/02-problem']);
+  });
+
+  it('não seleciona seções de outro serviço', () => {
+    expect(selectServiceSections(fixture('duplicate-anchor'), 'ec2', 'en')).toEqual([]);
   });
 
   it('monta uma mensagem de erro legível com todos os problemas', () => {

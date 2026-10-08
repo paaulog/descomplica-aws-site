@@ -5,8 +5,10 @@ export interface Alternate {
   href: string;
 }
 
-/** Garante barra inicial e final, sem barras duplicadas. Preserva `?query` e `#hash`. */
-function normalize(path: string): string {
+// '' at the domain root, '/descomplica-aws-site' on GitHub Pages.
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function normalizePath(path: string): string {
   const match = /^([^?#]*)(.*)$/.exec(path);
   const pathname = match?.[1] ?? '';
   const suffix = match?.[2] ?? '';
@@ -15,28 +17,24 @@ function normalize(path: string): string {
   return clean + suffix;
 }
 
-/**
- * Converte um caminho neutro (sem idioma) no caminho do idioma.
- * pt-BR não tem prefixo; en fica sob `/en`.
- */
 export function localizedPath(locale: Locale, path: string): string {
-  const normalized = normalize(path);
-  if (locale === defaultLocale) return normalized;
-  return normalized === '/' ? `/${locale}/` : `/${locale}${normalized}`;
+  const normalized = normalizePath(path);
+  if (locale === defaultLocale) return basePath + normalized;
+  return basePath + (normalized === '/' ? `/${locale}/` : `/${locale}${normalized}`);
 }
 
-/** Remove o prefixo de idioma de um pathname e devolve o caminho neutro e o idioma. */
 export function splitLocale(pathname: string): { locale: Locale; path: string } {
-  const normalized = normalize(pathname);
+  const withoutBase =
+    basePath && pathname.startsWith(basePath) ? pathname.slice(basePath.length) : pathname;
+  const normalized = normalizePath(withoutBase);
   const first = normalized.split('/')[1] ?? '';
-  // Aceita também `/pt-br/...` explícito, para o caminho neutro nunca carregar o prefixo.
+  // Also strips an explicit `/pt-br/` so the neutral path never carries a locale prefix.
   if (isLocale(first)) {
-    return { locale: first, path: normalize(normalized.slice(first.length + 1)) };
+    return { locale: first, path: normalizePath(normalized.slice(first.length + 1)) };
   }
   return { locale: defaultLocale, path: normalized };
 }
 
-/** Links `hreflang` de um caminho neutro, um por idioma, mais o `x-default`. */
 export function getAlternates(path: string, site: URL | string): Alternate[] {
   const toHref = (locale: Locale) => new URL(localizedPath(locale, path), site).href;
   return [

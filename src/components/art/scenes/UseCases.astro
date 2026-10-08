@@ -1,0 +1,47 @@
+---
+// Each satellite is a use case orbiting the bucket; icons are drawn inline, since only four are needed.
+const satellites = [
+  { x: 82, y: 56, delay: 0, icon: 'shield' },
+  { x: 398, y: 56, delay: -1.2, icon: 'globe' },
+  { x: 82, y: 168, delay: -2.4, icon: 'play' },
+  { x: 398, y: 168, delay: -3.6, icon: 'stack' },
+] as const;
+---
+
+<ellipse class="art-ground" cx="240" cy="216" rx="130" ry="9"></ellipse>
+{satellites.map((item) => (
+  <path
+    class="art-stroke art-flow"
+    stroke-width="2.5"
+    d={`M${item.x} ${item.y}Q240 ${item.y < 100 ? 70 : 190} 240 130`}
+    opacity="0.7"
+  />
+))}
+<use href="#art-bucket" x="204" y="86" width="72" height="84"></use>
+{satellites.map((item) => (
+  <g class="art-float" style={`--amp: 6px; --dur: 5s; --delay: ${item.delay}s`}>
+    <g transform={`translate(${item.x} ${item.y})`}>
+      <rect class="art-glass" x="-32" y="-32" width="64" height="64" rx="18" />
+      {item.icon === 'shield' && (
+        <path class="art-line" d="M0-15 13-10v9C13 8 7 14 0 17-7 14-13 8-13-1v-9Z" />
+      )}
+      {item.icon === 'globe' && (
+        <>
+          <circle class="art-line" r="14" />
+          <ellipse class="art-line" rx="6" ry="14" />
+          <path class="art-line" d="M-14 0h28" />
+        </>
+      )}
+      {item.icon === 'play' && <path class="art-line art-fill-light" d="M-6-11 12 0-6 11Z" />}
+      {item.icon === 'stack' && (
+        <>
+          <ellipse class="art-line" cy="-9" rx="13" ry="5" />
+          <path
+            class="art-line"
+            d="M-13-9v18c0 3 6 5 13 5s13-2 13-5V-9M-13 0c0 3 6 5 13 5s13-2 13-5"
+          />
+        </>
+      )}
+    </g>
+  </g>
+))}

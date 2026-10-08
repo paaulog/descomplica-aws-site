@@ -10,6 +10,7 @@ node_modules/
 coverage/
 playwright-report/
 test-results/
+.lighthouseci/
 blob-report/
 playwright/.cache/
 
@@ -26,3 +27,11 @@ npm-debug.log*
 Thumbs.db
 .idea/
 node_modules
+
+# fluxo de trabalho dos agentes (não faz parte do site)
+create_tasks.md
+create_techspec.md
+execute_review.md
+execute_task.md
+tasks/
+.claude/

@@ -1,0 +1,79 @@
+---
+import type { Service } from '../../data/services';
+import { localizedPath } from '../../lib/i18n/routes';
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+import ServiceIcon from '../art/ServiceIcon.astro';
+
+interface Props {
+  service: Service;
+  locale: Locale;
+}
+
+const { service, locale } = Astro.props;
+const t = createTranslator(locale);
+const isActive = service.status === 'active';
+---
+
+<article
+  class:list={[
+    'service-card glass group relative flex h-full flex-col rounded-3xl p-6',
+    isActive && 'glass-spot service-card--active',
+  ]}
+  data-service={service.id}
+  data-status={service.status}
+  data-spot={isActive ? '' : undefined}
+  data-tilt={isActive ? '' : undefined}
+>
+  <span
+    class="mb-8 grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-(--art-light) to-(--art) text-[#0b1220] shadow-[0_14px_28px_-10px_var(--art),inset_0_1px_0_rgb(255_255_255/0.6)]"
+    aria-hidden="true"
+  >
+    <ServiceIcon id={service.id} class="size-8" />
+  </span>
+  <h3 class="font-display text-2xl font-bold tracking-tight">
+    {isActive ? (
+      <a
+        href={localizedPath(locale, `/${service.id}/`)}
+        class="after:absolute after:inset-0 after:rounded-3xl focus-visible:outline-none"
+      >
+        {service.title[locale]}
+      </a>
+    ) : (
+      service.title[locale]
+    )}
+  </h3>
+  <p class="mt-2 flex-1 text-muted">{service.tagline[locale]}</p>
+  {isActive ? (
+    <span class="mt-6 text-sm font-semibold text-accent" aria-hidden="true">
+      {t('service.cta')} <span class="service-arrow inline-block transition-transform">→</span>
+    </span>
+  ) : (
+    <span class="mt-6 inline-flex w-fit rounded-full border border-border px-3 py-1 text-xs font-medium text-muted">
+      {t('service.status.soon')}
+    </span>
+  )}
+</article>
+
+<style>
+  .service-card--active {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.25s ease-out;
+  }
+
+  .service-card--active:hover .service-arrow {
+    transform: translateX(5px);
+  }
+
+  /* The stretched link covers the card, so the focus ring is drawn on the card itself. */
+  article:has(a:focus-visible) {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-card--active,
+    .service-arrow {
+      transition: none;
+    }
+  }
+</style>

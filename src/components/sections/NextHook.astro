@@ -1,0 +1,45 @@
+---
+import { splitLocale } from '../../lib/i18n/routes';
+import { createTranslator } from '../../lib/i18n/ui';
+
+const t = createTranslator(splitLocale(Astro.url.pathname).locale);
+---
+
+<div class="next-hook glass flex items-center gap-4 rounded-2xl py-4 pr-4 pl-5" data-next-hook>
+  <div class="min-w-0 flex-1">
+    <p class="text-xs font-semibold tracking-widest text-accent uppercase">{t('nextHook.label')}</p>
+    <div class="mt-1 font-display text-lg leading-snug font-semibold text-pretty text-fg">
+      <slot />
+    </div>
+  </div>
+  <span
+    class="hook-arrow grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-(--art-light) to-(--art) text-[#0b1220]"
+    aria-hidden="true"
+  >
+    <svg
+      class="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 5v14M6 13l6 6 6-6"></path>
+    </svg>
+  </span>
+</div>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .hook-arrow {
+      animation: hook-bob 1.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes hook-bob {
+    50% {
+      transform: translateY(5px);
+    }
+  }
+</style>

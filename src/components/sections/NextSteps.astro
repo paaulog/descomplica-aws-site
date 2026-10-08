@@ -1,0 +1,56 @@
+---
+import { author } from '../../data/author';
+import { getNextService } from '../../data/services';
+import { localizedPath, splitLocale } from '../../lib/i18n/routes';
+import { fillTemplate } from '../../lib/i18n/template';
+import { createTranslator } from '../../lib/i18n/ui';
+
+const S3_CONSOLE_URL = 'https://console.aws.amazon.com/s3/';
+
+const locale = splitLocale(Astro.url.pathname).locale;
+const t = createTranslator(locale);
+const nextService = getNextService();
+// "Soon" services have no page yet, so the link points to their card on the home page.
+const servicesListHref = `${localizedPath(locale, '/')}#services-heading`;
+---
+
+<nav class="grid gap-4" aria-labelledby="next-steps-heading" data-next-steps>
+  <p id="next-steps-heading" class="text-sm font-semibold tracking-widest text-accent uppercase">
+    {t('nextSteps.heading')}
+  </p>
+  <a
+    href={S3_CONSOLE_URL}
+    rel="noopener"
+    class="rounded-2xl bg-gradient-to-r from-[#ff9900] to-[#ffc15a] px-6 py-4 font-display text-lg font-bold text-[#1a1100] no-underline! shadow-[0_14px_30px_-12px_#ff9900,inset_0_1px_0_rgb(255_255_255/0.55)] transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+    data-next-try
+  >
+    {t('nextSteps.tryIt')} →
+  </a>
+  {nextService && (
+    <a
+      href={servicesListHref}
+      class="glass rounded-2xl px-5 py-4 font-medium text-fg no-underline! transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+      data-next-service
+    >
+      {fillTemplate(t('nextSteps.nextService'), { service: nextService.title[locale] })}{' '}
+      <span class="text-sm text-muted">({t('nextSteps.soon')})</span>
+    </a>
+  )}
+  <div class="glass rounded-2xl px-5 py-4">
+    <p class="text-base">{t('nextSteps.author')}</p>
+    <ul class="mt-3 flex list-none! flex-wrap gap-3 pl-0!">
+      {author.links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            rel="noopener me"
+            class="inline-flex rounded-full border border-border bg-accent-soft px-3.5 py-1.5 text-sm font-medium text-fg no-underline! hover:border-accent"
+            data-author-link
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>

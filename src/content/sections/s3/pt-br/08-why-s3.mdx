@@ -1,0 +1,25 @@
+---
+service: s3
+key: why-s3
+order: 8
+block: why
+anchor: por-que-nao-um-hd
+title: 'Por que não usar só um HD ou servidor?'
+navLabel: Por que não um HD
+summary: 'Durabilidade, espaço que cresce sozinho e pagar só pelo que usa.'
+---
+
+É uma dúvida justa. Um HD externo custa pouco e você compra uma vez só. A diferença aparece quando algo dá errado ou quando o uso cresce.
+
+| Situação       | HD ou servidor próprio                    | Amazon S3                                                  |
+| -------------- | ----------------------------------------- | ---------------------------------------------------------- |
+| O disco quebra | Você perde o que não tinha cópia          | Os dados já estão copiados em pelo menos três zonas        |
+| O uso cresce   | Você compra outro disco e migra tudo      | O espaço cresce sozinho, sem limite de total guardado      |
+| Como você paga | O disco inteiro, cheio ou vazio           | Só os GB guardados, mês a mês                              |
+| Acesso de fora | Você configura servidor, rede e segurança | Já vem com acesso pela internet, controlado por permissões |
+
+A durabilidade projetada de 99,999999999% parece só um número grande. Fazendo a conta: com 10 milhões de objetos guardados, a perda esperada é de um objeto a cada 10 mil anos, em média.
+
+<SmallWin>Pronto, você já sabe o que é o S3 e para que ele serve.</SmallWin>
+
+<NextHook>Chega de teoria: bora criar o primeiro bucket?</NextHook>

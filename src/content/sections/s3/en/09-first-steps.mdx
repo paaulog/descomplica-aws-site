@@ -1,0 +1,30 @@
+---
+service: s3
+key: first-steps
+order: 9
+block: how
+anchor: first-steps
+title: 'First steps in the console'
+navLabel: First steps
+summary: 'Create a bucket, upload a file and open it from a link in a few clicks.'
+---
+
+The path in the AWS console takes only a few clicks, and the defaults are already safe. If your console is in another language, the buttons below have translated names.
+
+<Steps>
+
+1. **Open S3.** In the console, search for "S3" in the top bar and click **Create bucket**.
+2. **Pick a name and a Region.** The name must be unique across all AWS accounts, 3 to 63 characters long: only lowercase letters, numbers, dots and hyphens.
+3. **Keep the default security.** The **Block all public access** option comes checked. Leave it that way and click **Create bucket** at the bottom of the page.
+4. **Upload a file.** Open the bucket, click **Upload**, drag a file in and confirm.
+5. **Try opening it from the link.** Click the object and copy the **Object URL**, something like `https://my-bucket.s3.us-east-1.amazonaws.com/beach.jpg`. Paste it into a private window.
+
+</Steps>
+
+Got an `AccessDenied`? Relax, nothing went wrong. That is S3 protecting your file, because everything starts private.
+
+The console's **Open** button does work, though. It creates a temporary link signed with your <Term id="credentials" />.
+
+<SmallWin>Done, you now know how to create a bucket and upload a file.</SmallWin>
+
+<NextHook>But what if I want someone else to open that file?</NextHook>

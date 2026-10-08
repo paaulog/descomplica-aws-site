@@ -1,0 +1,69 @@
+---
+const stacks = [
+  { x: 92, count: 3 },
+  { x: 176, count: 6 },
+  { x: 260, count: 4 },
+];
+const coinHeight = 14;
+const baseline = 196;
+---
+
+<ellipse class="art-ground" cx="220" cy="212" rx="170" ry="8"></ellipse>
+{stacks.map((stack, stackIndex) => (
+  <g
+    class="art-float"
+    style={`--amp: 4px; --dur: ${4 + stackIndex * 0.6}s; --delay: ${-stackIndex}s`}
+  >
+    {Array.from({ length: stack.count }, (_, coin) => {
+      const y = baseline - (coin + 1) * coinHeight;
+      return (
+        <g>
+          <rect
+            x={stack.x - 30}
+            y={y}
+            width="60"
+            height={coinHeight + 2}
+            rx="3"
+            fill="url(#g-orange)"
+          />
+          <ellipse
+            cx={stack.x}
+            cy={y}
+            rx="30"
+            ry="9"
+            fill="#ffd27a"
+            stroke="#fff"
+            stroke-opacity="0.6"
+          />
+          <ellipse
+            cx={stack.x}
+            cy={y}
+            rx="16"
+            ry="4.5"
+            fill="none"
+            stroke="#c77700"
+            stroke-opacity="0.55"
+          />
+        </g>
+      );
+    })}
+  </g>
+))}
+<rect class="art-glass" x="336" y="48" width="112" height="148" rx="20"></rect>
+{[38, 70, 24].map((height, bar) => (
+  <rect
+    class="art-rise"
+    x={354 + bar * 30}
+    y={184 - height * 1.5}
+    width="20"
+    height={height * 1.5}
+    rx="6"
+    style={`--delay: ${bar * 0.5}s`}
+    fill={bar === 2 ? '#34d399' : 'var(--art)'}
+  />
+))}
+<g class="art-sway art-sway-top" style="--deg: 7deg">
+  <path d="M414 6V30" stroke="#fff" stroke-opacity="0.7" stroke-width="2" fill="none"></path>
+  <path d="M414 30l22 10v24l-22 10-22-10V40Z" class="art-fill" transform="translate(0 0)"></path>
+  <circle cx="414" cy="52" r="5" fill="#0b1220" opacity="0.6"></circle>
+</g>

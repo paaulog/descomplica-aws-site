@@ -1,34 +1,74 @@
 ---
-import { services } from '../../data/services';
+import { getActiveServices, services } from '../../data/services';
 import { localizedPath } from '../../lib/i18n/routes';
-import { useTranslations, type Locale } from '../../lib/i18n/ui';
+import { createTranslator, type Locale } from '../../lib/i18n/ui';
+import { getOgImagePath, HOME_OG_SLUG } from '../../lib/og/paths';
+import HomeArt from '../art/HomeArt.astro';
 import BaseLayout from '../layout/BaseLayout.astro';
+import ServiceCard from '../ui/ServiceCard.astro';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const t = useTranslations(locale);
-const sorted = [...services].sort((a, b) => a.order - b.order);
+const t = createTranslator(locale);
+const sorted = services.toSorted((first, second) => first.order - second.order);
+const [firstActive] = getActiveServices();
 ---
 
-<BaseLayout locale={locale}>
-  <h1>{t('site.title')}</h1>
-  <p>{t('site.description')}</p>
-  <h2>{t('home.servicesHeading')}</h2>
-  <ul>
-    {sorted.map((service) => (
-      <li data-service={service.id} data-status={service.status}>
-        {service.status === 'active' ? (
-          <a href={localizedPath(locale, `/${service.id}/`)}>{service.title[locale]}</a>
-        ) : (
-          <span>
-            {service.title[locale]} ({t('service.status.soon')})
-          </span>
+<BaseLayout locale={locale} path="/" image={getOgImagePath(locale, HOME_OG_SLUG)}>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <section class="grid items-center gap-10 pt-12 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-24">
+      <div>
+        <p class="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold tracking-wide text-accent uppercase">
+          <span
+            class="size-2 rounded-full bg-[#ff9900] shadow-[0_0_10px_#ff9900]"
+            aria-hidden="true"
+          ></span>
+          {t('home.eyebrow')}
+        </p>
+        <h1 class="mt-6 font-display text-5xl leading-[1.02] font-extrabold tracking-tighter text-balance sm:text-7xl">
+          {t('home.title')}
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-muted sm:text-xl">
+          {t('home.lead')}
+        </p>
+        {firstActive && (
+          <a
+            href={localizedPath(locale, `/${firstActive.id}/`)}
+            class="mt-9 inline-flex min-h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff9900] to-[#ffc15a] px-7 font-display text-lg font-bold text-[#1a1100] shadow-[0_16px_34px_-12px_#ff9900,inset_0_1px_0_rgb(255_255_255/0.6)] transition-transform hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+            data-home-cta
+          >
+            {t('service.cta')} · {firstActive.title[locale]}
+            <span aria-hidden="true">→</span>
+          </a>
         )}
-        <p>{service.tagline[locale]}</p>
-      </li>
-    ))}
-  </ul>
+      </div>
+      <div class="art-stage glass home-stage" data-art-stage>
+        <HomeArt />
+      </div>
+    </section>
+    <section aria-labelledby="services-heading" class="pb-8">
+      <h2
+        id="services-heading"
+        class="font-display text-sm font-semibold tracking-widest text-accent uppercase"
+      >
+        {t('home.servicesHeading')}
+      </h2>
+      <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {sorted.map((service) => (
+          <li>
+            <ServiceCard service={service} locale={locale} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
 </BaseLayout>
+
+<script>
+  import { observeArtStages } from '../../lib/ui/art-visibility';
+
+  observeArtStages([...document.querySelectorAll('[data-art-stage]')]);
+</script>

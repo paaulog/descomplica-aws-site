@@ -1,0 +1,23 @@
+---
+import type { ServiceId } from '../../data/services';
+
+interface Props {
+  id: ServiceId;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 48 48"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <use href={`#art-ico-${id}`}></use>
+</svg>

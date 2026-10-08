@@ -1,0 +1,50 @@
+---
+const steps = [0, 1, 2, 3];
+const ground = 206;
+---
+
+<ellipse class="art-ground" cx="240" cy="214" rx="190" ry="9"></ellipse>
+{steps.map((step) => {
+  const x = 60 + step * 86;
+  const top = 170 - step * 40;
+  return (
+    <g>
+      <rect
+        x={x}
+        y={top}
+        width="90"
+        height={ground - top}
+        rx="8"
+        fill="url(#g-glass)"
+        stroke="#fff"
+        stroke-opacity="0.5"
+      />
+      <rect x={x} y={top} width="90" height="9" rx="4.5" class="art-fill" opacity="0.85" />
+      <circle cx={x + 45} cy={top + 30} r="10" fill="#fff" opacity="0.22" />
+      <path
+        d={`M${x + 40} ${top + 30}h10M${x + 45} ${top + 25}v10`}
+        stroke="#fff"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        opacity="0.8"
+        fill="none"
+      />
+    </g>
+  );
+})}
+<path
+  class="art-stroke art-flow"
+  stroke-width="2.5"
+  d="M84 162Q120 120 148 130Q190 80 236 90Q276 40 322 50Q354 28 372 34"
+  opacity="0.65"
+></path>
+<g
+  class="art-travel"
+  style="--path: path('M84 162Q120 120 148 130Q190 80 236 90Q276 40 322 50Q354 28 372 34'); --dur: 4.4s"
+>
+  <use href="#art-file" x="-10" y="-13" width="20" height="25"></use>
+</g>
+<g class="art-sway art-sway-top" style="--deg: 5deg">
+  <path d="M380 50V12" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+  <path d="M380 12 412 22 380 32Z" class="art-fill"></path>
+</g>

@@ -1,0 +1,72 @@
+---
+import { codeLanguageLabels, codeLanguages } from '../../lib/code/code-language';
+import { splitLocale } from '../../lib/i18n/routes';
+import { createTranslator } from '../../lib/i18n/ui';
+import { generateUniqueId } from '../../lib/ui/unique-id';
+
+const t = createTranslator(splitLocale(Astro.url.pathname).locale);
+const groupId = generateUniqueId('code');
+const available = codeLanguages.filter((language) => Astro.slots.has(language));
+if (available.length === 0) {
+  throw new Error(
+    `<CodeTabs> precisa de ao menos um slot de linguagem: ${codeLanguages.join(', ')}`,
+  );
+}
+const panels = await Promise.all(
+  available.map(async (language, index) => ({
+    language,
+    selected: index === 0,
+    tabId: `${groupId}-${language}-tab`,
+    panelId: `${groupId}-${language}-panel`,
+    html: await Astro.slots.render(language),
+  })),
+);
+---
+
+<div class="code-tabs not-first:mt-8" data-code-tabs>
+  <div
+    role="tablist"
+    aria-label={t('code.languageLabel')}
+    class="flex gap-1 border-b border-border"
+  >
+    {panels.map(({ language, selected, tabId, panelId }) => (
+      <button
+        type="button"
+        role="tab"
+        id={tabId}
+        aria-controls={panelId}
+        aria-selected={selected ? 'true' : 'false'}
+        tabindex={selected ? 0 : -1}
+        class="-mb-px border-b-2 border-transparent px-3 py-2 text-sm font-medium text-muted hover:text-fg aria-selected:border-accent aria-selected:text-fg"
+        data-code-lang={language}
+      >
+        {codeLanguageLabels[language]}
+      </button>
+    ))}
+  </div>
+  {panels.map(({ language, selected, tabId, panelId, html }) => (
+    <div
+      role="tabpanel"
+      id={panelId}
+      aria-labelledby={tabId}
+      class="pt-3"
+      data-inactive={selected ? undefined : ''}
+      data-code-lang={language}
+      set:html={html}
+    />
+  ))}
+</div>
+
+<style>
+  /* Without JS the tabs cannot switch, so the tablist goes away and every language is shown. */
+  :global(html:not(.js)) [role='tablist'],
+  :global(.js) [role='tabpanel'][data-inactive] {
+    display: none;
+  }
+</style>
+
+<script>
+  import { setupCodeTabs } from '../../lib/ui/code-tabs';
+
+  setupCodeTabs();
+</script>

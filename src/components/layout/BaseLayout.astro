@@ -1,15 +1,47 @@
 ---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/bricolage-grotesque';
+import geistLatinUrl from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import displayLatinUrl from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
 import '../../styles/global.css';
-import { htmlLang, useTranslations, type Locale } from '../../lib/i18n/ui';
+import Analytics from '@vercel/analytics/astro';
+import ArtSprite from '../art/ArtSprite.astro';
+import type { ServiceId } from '../../data/services';
+import type { AnchorMap } from '../../lib/i18n/anchors';
+import { getAlternates, localizedPath } from '../../lib/i18n/routes';
+import {
+  createTranslator,
+  getOtherLocale,
+  htmlLang,
+  openGraphLocale,
+  type Locale,
+} from '../../lib/i18n/ui';
+import { OG_HEIGHT, OG_WIDTH } from '../../lib/og/paths';
+import { THEME_STORAGE_KEY, DARK_SCHEME_QUERY } from '../../lib/theme/theme';
+import SiteFooter from './SiteFooter.astro';
+import SiteHeader from './SiteHeader.astro';
 
 interface Props {
   locale: Locale;
+  /** Locale-neutral path (e.g. `/s3/`). Pages without one (404) get no canonical and are not indexed. */
+  path?: string;
   title?: string;
+  description?: string;
+  /** Root-relative Open Graph PNG, generated per page and locale by /og/[locale]/[service].png. */
+  image?: string;
+  service?: ServiceId;
+  anchorMap?: AnchorMap;
 }
 
-const { locale, title } = Astro.props;
-const t = useTranslations(locale);
+const { locale, path, title, description, image, service, anchorMap } = Astro.props;
+const t = createTranslator(locale);
+const site = Astro.site ?? Astro.url.origin;
 const pageTitle = title ? `${title} · ${t('site.title')}` : t('site.title');
+const pageDescription = description ?? t('site.description');
+const canonical = path === undefined ? undefined : new URL(localizedPath(locale, path), site).href;
+const alternates = path === undefined ? [] : getAlternates(path, site);
+const imageUrl = image === undefined ? undefined : new URL(image, site).href;
 ---
 
 <!doctype html>
@@ -17,12 +49,62 @@ const pageTitle = title ? `${title} · ${t('site.title')}` : t('site.title');
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={t('site.description')} />
     <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline define:vars={{ storageKey: THEME_STORAGE_KEY, darkQuery: DARK_SCHEME_QUERY }}>
+      const root = document.documentElement;
+      root.classList.add('js');
+      let stored = null;
+      try {
+        stored = localStorage.getItem(storageKey);
+      } catch {}
+      const isTheme = stored === 'light' || stored === 'dark';
+      root.dataset.theme = isTheme ? stored : matchMedia(darkQuery).matches ? 'dark' : 'light';
+    </script>
+    <link rel="preload" href={geistLatinUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayLatinUrl} as="font" type="font/woff2" crossorigin />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {alternates.map((alternate) => (
+      <link rel="alternate" hreflang={alternate.hreflang} href={alternate.href} />
+    ))}
+    {path === undefined && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t('site.title')} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:locale" content={openGraphLocale[locale]} />
+    <meta property="og:locale:alternate" content={openGraphLocale[getOtherLocale(locale)]} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    {imageUrl && <meta property="og:image:type" content="image/png" />}
+    {imageUrl && <meta property="og:image:width" content={String(OG_WIDTH)} />}
+    {imageUrl && <meta property="og:image:height" content={String(OG_HEIGHT)} />}
+    {imageUrl && <meta property="og:image:alt" content={pageTitle} />}
+    <meta name="twitter:card" content={imageUrl ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
   </head>
-  <body>
-    <main>
+  <body class="flex min-h-dvh flex-col bg-bg font-sans text-fg antialiased" data-service={service}>
+    <a
+      href="#main"
+      class="fixed top-2 left-2 z-50 -translate-y-20 rounded-md bg-fg px-4 py-2 text-sm font-medium text-bg focus:translate-y-0"
+    >
+      {t('a11y.skipToContent')}
+    </a>
+    <ArtSprite />
+    <SiteHeader locale={locale} path={path ?? '/'} anchorMap={anchorMap} />
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>
+    <SiteFooter locale={locale} />
+    {/* Vercel Analytics only exists on Vercel; elsewhere its script would 404. */}
+    {process.env.DEPLOY_TARGET !== 'github-pages' && <Analytics />}
+    <script>
+      import { setupPointerFx } from '../../lib/ui/pointer-fx';
+
+      setupPointerFx();
+    </script>
   </body>
 </html>

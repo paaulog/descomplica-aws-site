@@ -1,14 +1,10 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
-import type { SectionLike } from '../../../src/lib/content/parity';
-import { sectionSchema } from '../../../src/lib/content/schemas';
+import type { SectionLike } from '@/lib/content/parity';
+import { sectionSchema } from '@/lib/content/schemas';
 
-/**
- * Lê as seções MDX de uma pasta como o loader `glob` do content.config.ts faz:
- * só `<service>/<locale>/<arquivo>.mdx`, id = caminho relativo sem extensão e frontmatter
- * validado pelo mesmo schema Zod.
- */
+// Mirrors the `glob` loader in content.config.ts so parity runs without booting Astro.
 export function loadSections(base: string): SectionLike[] {
   const files = readdirSync(base, { recursive: true, encoding: 'utf8' }).filter(
     (file) => file.endsWith('.mdx') && file.split(/[\\/]/).length === 3,

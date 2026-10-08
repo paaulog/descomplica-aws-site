@@ -2,8 +2,13 @@
 import { render } from 'astro:content';
 import type { Service } from '../../data/services';
 import { getServiceSections } from '../../lib/content';
-import type { Locale } from '../../lib/i18n/ui';
+import { mapAnchors } from '../../lib/i18n/anchors';
+import { getOtherLocale, type Locale } from '../../lib/i18n/ui';
+import { getOgImagePath } from '../../lib/og/paths';
 import BaseLayout from '../layout/BaseLayout.astro';
+import SectionNav from '../layout/SectionNav.astro';
+import { mdxComponents } from '../mdx-components';
+import SectionShell from './SectionShell.astro';
 
 interface Props {
   service: Service;
@@ -11,21 +16,35 @@ interface Props {
 }
 
 const { service, locale } = Astro.props;
-const sections = await Promise.all(
-  (await getServiceSections(service.id, locale)).map(async (section) => ({
-    section,
+const sections = await getServiceSections(service.id, locale);
+const otherSections = await getServiceSections(service.id, getOtherLocale(locale));
+const anchorMap = mapAnchors(
+  sections.map((section) => section.data),
+  otherSections.map((section) => section.data),
+);
+const rendered = await Promise.all(
+  sections.map(async (section) => ({
+    data: section.data,
     Content: (await render(section)).Content,
   })),
 );
 ---
 
-<BaseLayout locale={locale} title={service.title[locale]}>
-  <article data-service={service.id}>
-    {sections.map(({ section, Content }) => (
-      <section id={section.data.anchor} aria-labelledby={`${section.data.anchor}-title`}>
-        <h2 id={`${section.data.anchor}-title`}>{section.data.title}</h2>
-        <Content />
-      </section>
+<BaseLayout
+  locale={locale}
+  path={`/${service.id}/`}
+  title={service.title[locale]}
+  description={service.tagline[locale]}
+  image={getOgImagePath(locale, service.id)}
+  service={service.id}
+  anchorMap={anchorMap}
+>
+  <SectionNav sections={sections.map((section) => section.data)} locale={locale} />
+  <article class="mx-auto max-w-2xl px-4 sm:px-6">
+    {rendered.map(({ data, Content }, index) => (
+      <SectionShell section={data} locale={locale} headingLevel={index === 0 ? 1 : 2}>
+        <Content components={mdxComponents} />
+      </SectionShell>
     ))}
   </article>
 </BaseLayout>

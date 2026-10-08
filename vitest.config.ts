@@ -1,9 +1,14 @@
 /// <reference types="vitest/config" />
 import { getViteConfig } from 'astro/config';
 
-// getViteConfig herda a config do Astro (plugin React, Tailwind, aliases) para os testes.
 export default getViteConfig({
   test: {
+    coverage: {
+      provider: 'v8',
+      include: ['src/lib/**/*.ts'],
+      // The pure S3 logic is where a bug would teach something wrong.
+      thresholds: { 'src/lib/s3/**': { lines: 95, branches: 90 } },
+    },
     projects: [
       {
         extends: true,
@@ -27,7 +32,7 @@ export default getViteConfig({
           name: 'integration',
           include: ['tests/integration/**/*.test.ts'],
           environment: 'node',
-          // O teste de build roda `astro build` de verdade.
+          // The build test runs a real `astro build`.
           testTimeout: 180_000,
         },
       },

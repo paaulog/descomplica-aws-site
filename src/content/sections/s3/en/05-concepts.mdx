@@ -1,0 +1,26 @@
+---
+service: s3
+key: concepts
+order: 5
+block: what
+anchor: core-concepts
+title: 'Bucket, object, key and Region'
+navLabel: Core concepts
+summary: 'A bucket holds objects, each object has a key and the bucket lives in a Region.'
+---
+
+Everything in S3 revolves around four pieces. The <Term id="bucket" /> holds the files, each file becomes an <Term id="object" /> and each object has a <Term id="key" />, its full name.
+
+The fourth piece is the <Term id="region">Region</Term>: the place in the world where the bucket lives, such as `us-east-1` (N. Virginia) or `sa-east-1` (São Paulo). You pick the Region when you create the bucket and cannot change it later.
+
+Upload a file and see what S3 stores along with it. That extra information is the <Term id="metadata" />.
+
+<S3Island name="uploadToBucket" />
+
+You might be thinking: "what about folders?". In S3 they do not really exist. Type a key and see how the console turns the slashes into <Term id="prefix">prefixes</Term> that look like folders.
+
+<S3Island name="keyExplorer" />
+
+<SmallWin>Done, you now know what a bucket, an object, a key and a Region are.</SmallWin>
+
+<NextHook>Fine, but where does this show up in real life?</NextHook>

@@ -1,0 +1,44 @@
+---
+service: s3
+key: static-website
+order: 14
+block: how
+anchor: static-website
+title: 'A website online with just S3'
+navLabel: Static website
+summary: 'Upload the files, turn on hosting and allow public reads.'
+---
+
+A static website is made only of files: HTML, CSS, JavaScript and images, with no server running code. And storing files is exactly what S3 does.
+
+<Steps>
+
+1. **Upload the website files** to a new bucket, with `index.html` at the root.
+2. **Turn on hosting.** In the **Properties** tab, enable **Static website hosting** and set the <Term id="index-document" />, usually `index.html`.
+3. **Allow reads.** In the **Permissions** tab, turn off Block Public Access and paste the bucket policy below, changing the bucket name.
+4. **Open the address.** S3 shows the website link, in the format `http://my-site.s3-website-us-east-1.amazonaws.com`.
+
+</Steps>
+
+```json title="bucket-policy.json"
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicRead",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my-site/*"
+    }
+  ]
+}
+```
+
+This is the one case where a public bucket makes sense, because everything in it was made for anyone to see. Never keep anything private in the website bucket.
+
+Notice the `http://`: the S3 website address has no HTTPS. For HTTPS and your own domain, AWS recommends putting <Term id="cloudfront" /> or AWS Amplify Hosting in front of the bucket.
+
+<SmallWin>Done, you now know how to put a website online with S3.</SmallWin>
+
+<NextHook>And can you do all of this from code, without clicking?</NextHook>

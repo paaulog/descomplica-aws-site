@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
   getActiveServices,
+  getNextService,
   serviceIds,
   services,
   serviceStatuses,
-} from '../../../src/data/services';
-import { locales } from '../../../src/lib/i18n/ui';
+} from '@/data/services';
+import { locales } from '@/lib/i18n/ui';
 
 describe('services', () => {
   it('tem ids únicos e conhecidos', () => {
@@ -34,5 +35,18 @@ describe('services', () => {
 
   it('na v1, só o S3 está ativo', () => {
     expect(getActiveServices().map((service) => service.id)).toEqual(['s3']);
+  });
+});
+
+describe('getNextService', () => {
+  it('devolve o serviço "em breve" de menor order', () => {
+    const soon = services.filter((service) => service.status === 'soon');
+    const lowestOrder = Math.min(...soon.map((service) => service.order));
+    expect(getNextService()?.order).toBe(lowestOrder);
+    expect(getNextService()?.status).toBe('soon');
+  });
+
+  it('na v1, o próximo serviço é o EC2', () => {
+    expect(getNextService()?.id).toBe('ec2');
   });
 });

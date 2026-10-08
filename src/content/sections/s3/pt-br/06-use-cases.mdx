@@ -1,0 +1,26 @@
+---
+service: s3
+key: use-cases
+order: 6
+block: why
+anchor: casos-de-uso
+title: 'Onde o S3 aparece no dia a dia'
+navLabel: Casos de uso
+summary: 'Fotos de perfil, backups, sites estáticos, vídeos e dados para análise.'
+---
+
+Quase todo app que você usa guarda arquivos em algum lugar. Estes são os usos mais comuns do S3:
+
+- **Arquivos de usuários:** fotos de perfil, anexos e documentos enviados num app.
+- **Backups:** cópias do banco de dados ou dos computadores da empresa.
+- **Sites estáticos:** o HTML, o CSS, o JavaScript e as imagens de um site.
+- **Vídeos:** as aulas de uma plataforma de cursos, por exemplo.
+- **Dados para análise:** logs e arquivos enormes que alimentam relatórios.
+
+Role a página e veja o caminho de uma foto de perfil, do celular até o bucket.
+
+<S3Island name="flowDiagram" />
+
+Repare num detalhe: o app não guarda a foto, só a chave dela. Quem guarda, copia e entrega o arquivo é o S3.
+
+<NextHook>Tá, mas empresa grande usa isso mesmo?</NextHook>
